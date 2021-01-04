@@ -1,7 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 body {
+    box-sizing: border-box;
+    margin: 0;
     background-color: ghostwhite;
+    font-family: "Playfair Display";
+    color: #2A293E;
+    
 }
 
-.newClass {
-    color: rebeccapurple;
+
+.formField {
+    background-color: #f8f4e5;
+    padding: 50px 100px;
+    border-top: 10px solid #f45702;
+}
+
+label, input {
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    line-height: 22px;
+    font-family: "Comfortaa";
+}
+
+input {
+    margin-bottom: 22px;
+    border: none;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 2px;
+    padding-left: 5px ;
+    outline: none;
+    background-color: transparent;
+}
+
+button {
+    display: block;
+    padding: 0 20px;
+    border: none;
+    background-color: #f45702;
+    color: white;
+    line-height: 16px;
+
 }

@@ -45,34 +45,52 @@ export default class Registration extends Component {
 
     render() {
         return (
-            <div>
+            <div className="registerField">
                 <h1>Registration</h1>
-                {this.state.error && <p>Something went wrong. Please try again</p>}
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="first"
-                    placeholder="First name"
-                    type="text"
-                />
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="last"
-                    placeholder="Last name"
-                    type="text"
-                />
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="email"
-                    placeholder="Email"
-                    type="text"
-                />
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="password"
-                    placeholder="Password"
-                    type="password"
-                />
-                <button onClick={(e) => this.handleClick(e)}>Submit</button>
+                {this.state.error && (
+                    <p className="errorMessage">
+                        Something went wrong. Please try again
+                    </p>
+                )}
+                <div className="formField">
+                    <label>
+                        First Name
+                        <input
+                            onChange={(e) => this.handleChange(e)}
+                            name="first"
+                            placeholder="First Name"
+                            type="text"
+                        />
+                    </label>
+                    <label>
+                        Last Name
+                        <input
+                            onChange={(e) => this.handleChange(e)}
+                            name="last"
+                            placeholder="Last Name"
+                            type="text"
+                        />
+                    </label>
+                    <label>
+                        Email
+                        <input
+                            onChange={(e) => this.handleChange(e)}
+                            name="email"
+                            placeholder="Email"
+                            type="text"
+                        />
+                    </label>
+                    <label>
+                        Password
+                        <input
+                            onChange={(e) => this.handleChange(e)}
+                            name="password"
+                            placeholder="Password"
+                            type="password"
+                        />
+                    </label>
+                    <button onClick={(e) => this.handleClick(e)}>Submit</button>
+                </div>
             </div>
         );
     }
