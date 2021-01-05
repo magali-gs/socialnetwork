@@ -2,7 +2,7 @@
 //Add logic (input) and state (store) will work together
 
 import { Component } from "react";
-import axios from "axios";
+import axios from "./axios";
 
 export default class Registration extends Component {
     constructor() {

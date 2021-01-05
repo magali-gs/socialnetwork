@@ -5,6 +5,7 @@ const path = require("path");
 const cookieSession = require("cookie-session");
 const db = require("../db");
 const { hash, compare } = require("../bc");
+const csurf = require("csurf");
 
 let secret;
 process.env.NODE_ENV === "production"
@@ -23,6 +24,14 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 7 * 6,
     })
 );
+
+app.use(csurf());
+
+app.use(function (req, res, next) {
+    console.log("token", req.csrfToken);
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 app.use(compression());
 
