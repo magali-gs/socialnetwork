@@ -29,17 +29,21 @@ export default class Registration extends Component {
 
     handleClick(e) {
         console.log("handleClick ", this.state);
-        e.preventDefault();
+        // e.preventDefault();
         axios
             .post("/registration", this.state)
-            .then(() => {
-                location.replace("/");
+            .then(( { data }) => {
+                console.log("data", data);
+                if(data.error) {
+                    this.setState({
+                        error: true,
+                    });
+                } else {
+                    location.replace("/");
+                }
             })
             .catch((error) => {
                 console.log("error on axios.post /registration: ", error);
-                this.setState({
-                    error: true,
-                });
             });
     }
 

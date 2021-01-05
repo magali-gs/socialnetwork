@@ -31,13 +31,13 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 // redirect stuff... after set the cookie session middleware
 app.get("/welcome", (req, res) => {
-    if (req.session.userId) {
+    // if (req.session.userId) {
         //they shouldn't be allowed to see /welcome
-        res.redirect("/");
-    } else {
+    //     res.redirect("/");
+    // } else {
         //the user is allowed to see the welcome page
         res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-    }
+    // }
 });
 
 app.post("/registration", (req, res) => {
@@ -47,8 +47,8 @@ app.post("/registration", (req, res) => {
             db.addUser(first, last, email, hashedPw)
                 .then(({ rows }) => {
                     console.log("addUser worked: ", rows);
-                    req.session.userId = row[0].id;
-                    res.json({ success: true });
+                    // req.session.userId = rows[0].id;
+                    res.json({ error: false });
                 })
                 .catch((error) => {
                     console.log("error in addUser: ", error);
@@ -62,11 +62,11 @@ app.post("/registration", (req, res) => {
 
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {
-    if (!req.session.userId) {
-        res.redirect("/welcome");
-    } else {
+    // if (!req.session.userId) {
+    //     res.redirect("/welcome");
+    // } else {
         res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-    }
+    // }
 });
 
 app.listen(process.env.PORT || 3001, function () {
