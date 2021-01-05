@@ -67,7 +67,9 @@ export default class Login extends Component {
                     </label>
                     <button onClick={(e) => this.handleClick(e)}>Submit</button>
                 </div>
+                {/* create a Link to reset-password */}
                 <Link to="/">Click here to Register!</Link>
+                <Link to="/reset-password">Reset password!</Link>
             </div>
         );
     }

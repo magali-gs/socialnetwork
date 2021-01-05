@@ -3,14 +3,16 @@ const app = express();
 const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
-const db = require("../db");
-const { hash, compare } = require("../bc");
+const db = require("./db");
+const { hash, compare } = require("./bc");
 const csurf = require("csurf");
+const cryptoRandomString = require("crypto-random-string");
+const { sendEmail } = require( "./ses");
 
 let secret;
 process.env.NODE_ENV === "production"
     ? (secret = process.env)
-    : (secret = require("../secrets.json"));
+    : (secret = require("./secrets.json"));
 
 app.use(
     express.json({
@@ -28,7 +30,6 @@ app.use(
 app.use(csurf());
 
 app.use(function (req, res, next) {
-    console.log("token", req.csrfToken);
     res.cookie("mytoken", req.csrfToken());
     next();
 });
@@ -105,6 +106,69 @@ app.post("/welcome/login", (req, res) => {
             }
         }).catch((error) => {
             console.log("error in getUserInfo", error);
+            res.json({ error: true });
+        });
+});
+
+app.get("/welcome/reset-password", (req, res) => {
+    // if (req.session.userId) {
+    //they shouldn't be allowed to see /welcome
+    // res.redirect("/");
+    // } else {
+    //the user is allowed to see the welcome page
+    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    // }
+});
+
+app.post("/welcome/reset-password/start", (req, res) => {
+    console.log("req.body", req.body);
+    const { email } = req.body;
+    db.getUserEmail(email)
+        .then(({ rows }) => {
+            console.log("rows", rows);
+            if (rows.length > 0) {
+                const secretCode = cryptoRandomString({
+                    length: 6,
+                });
+                console.log("secretCode", secretCode);
+                db.addCode(email, secretCode)
+                    .then(() => {
+                        //send the email
+                        var subj = "XXX Password Reset";
+                        var msg = `Greetings from XXX,
+
+                            To reset your password for XX, please enter the following 
+                            code and the new password in the reset password page.
+
+                            ${secretCode}
+
+                            If you don't want to reset your password, you can ignore this 
+                            message - someone probably typed in your username or email address 
+                            by mistake.
+
+                            Thanks! 
+                            Team Snapchat
+                        `;
+                        // var email = email;
+                        sendEmail(email, msg, subj)
+                            .then(() => {
+                                res.json({ success: true });
+                            })
+                            .catch((error) => {
+                                console.log("error in sendEmail", error);
+                                res.json({ error: true });
+                            });
+                    })
+                    .catch((error) => {
+                        console.log("error in addCode", error);
+                        res.json({ error: true });
+                    });
+            } else {
+                res.json({ error: true });
+            }
+        })
+        .catch((error) => {
+            console.log("error in getUserEmail", error);
             res.json({ error: true });
         });
 });
