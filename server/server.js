@@ -41,11 +41,11 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 // redirect stuff... after set the cookie session middleware
 app.get("/welcome", (req, res) => {
     // if (req.session.userId) {
-        //they shouldn't be allowed to see /welcome
+    //they shouldn't be allowed to see /welcome
     //     res.redirect("/");
     // } else {
-        //the user is allowed to see the welcome page
-        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    //the user is allowed to see the welcome page
+    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
     // }
 });
 
@@ -69,12 +69,52 @@ app.post("/registration", (req, res) => {
         });
 });
 
+app.get("/welcome/login", (req, res) => {
+    // if (req.session.userId) {
+    //they shouldn't be allowed to see /welcome
+    // res.redirect("/");
+    // } else {
+    //the user is allowed to see the welcome page
+    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    // }
+});
+
+app.post("/welcome/login", (req, res) => {
+    console.log(req.body);
+    const { email, password } = req.body;
+    db.getUserInfo(email)
+        .then(({ rows }) => {
+            console.log("rows", rows);
+            if (rows.length > 0) {
+                compare(password, rows[0].password)
+                    .then((result) => {
+                        console.log("deu certo", result);
+                        if (result) {
+                            req.session.userId = rows[0].id;
+                            res.json({ error: false });
+                        } else {
+                            console.log("senha nao compativel");
+                            res.json({ error: true });
+                        }
+                    }).catch((error) => {
+                        console.log("error in compare password", error);
+                        res.json({ error: true });
+                    });
+            } else {
+                res.json({ error: true });
+            }
+        }).catch((error) => {
+            console.log("error in getUserInfo", error);
+            res.json({ error: true });
+        });
+});
+
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {
     // if (!req.session.userId) {
     //     res.redirect("/welcome");
     // } else {
-        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
     // }
 });
 

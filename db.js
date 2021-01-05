@@ -14,3 +14,14 @@ module.exports.addUser = (firstName, lastName, email, password) => {
     const params = [firstName, lastName, email, password];
     return db.query(q, params);
 };
+
+/////////////////////////QUERY for login///////////////////////////
+module.exports.getUserInfo = (userEmail) => {
+    const q = `
+        SELECT id, email, password
+        FROM users
+        WHERE email = $1;
+        `;
+    const params = [userEmail];
+    return db.query(q, params);
+};
