@@ -8,3 +8,5 @@ CREATE TABLE users(
     password  VARCHAR(250) NOT NULL CHECK (password != ''),
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE users ADD COLUMN profile_pic VARCHAR;

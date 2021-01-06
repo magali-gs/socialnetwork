@@ -8,6 +8,28 @@ const { hash, compare } = require("./bc");
 const csurf = require("csurf");
 const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require( "./ses");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const s3 = require("./s3");
+const { s3Url } = require("./config.json");
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 
 let secret;
 process.env.NODE_ENV === "production"
@@ -41,13 +63,13 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 // redirect stuff... after set the cookie session middleware
 app.get("/welcome", (req, res) => {
-    // if (req.session.userId) {
+    if (req.session.userId) {
     //they shouldn't be allowed to see /welcome
-    //     res.redirect("/");
-    // } else {
+        res.redirect("/");
+    } else {
     //the user is allowed to see the welcome page
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-    // }
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
 });
 
 app.post("/registration", (req, res) => {
@@ -57,7 +79,7 @@ app.post("/registration", (req, res) => {
             db.addUser(first, last, email, hashedPw)
                 .then(({ rows }) => {
                     console.log("addUser worked: ", rows);
-                    // req.session.userId = rows[0].id;
+                    req.session.userId = rows[0].id;
                     res.json({ error: false });
                 })
                 .catch((error) => {
@@ -68,16 +90,6 @@ app.post("/registration", (req, res) => {
         .catch((error) => {
             console.log("error in hash: ", error);
         });
-});
-
-app.get("/welcome/login", (req, res) => {
-    // if (req.session.userId) {
-    //they shouldn't be allowed to see /welcome
-    // res.redirect("/");
-    // } else {
-    //the user is allowed to see the welcome page
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-    // }
 });
 
 app.post("/welcome/login", (req, res) => {
@@ -109,16 +121,6 @@ app.post("/welcome/login", (req, res) => {
             res.json({ error: true });
         });
 });
-
-// app.get("/welcome/reset-password", (req, res) => {
-//     // if (req.session.userId) {
-//     //they shouldn't be allowed to see /welcome
-//     // res.redirect("/");
-//     // } else {
-//     //the user is allowed to see the welcome page
-//     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-//     // }
-// });
 
 app.post("/welcome/reset-password/start", (req, res) => {
     const { email } = req.body;
@@ -195,13 +197,29 @@ app.post("/welcome/reset-password/verify", (req, res) => {
         });
 });
 
+app.get('/profile', (req, res) => {
+    console.log(req.session.userId);
+    db.getUserProfile(req.session.userId)
+        .then(({ rows }) => {
+            console.log('rows', rows[0]);
+            res.json(rows[0]);
+        }).catch((error) => {
+            console.log("error in /profile route - getUserProfile", error);
+            res.json({ error: true });
+        });
+});
+
+// app.post('/profile', uploader.single('image'), s3.upload, (req, res) => {
+//     console.log('');
+// });
+
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {
-    // if (!req.session.userId) {
-    //     res.redirect("/welcome");
-    // } else {
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-    // }
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
 });
 
 app.listen(process.env.PORT || 3001, function () {

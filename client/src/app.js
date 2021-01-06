@@ -1,4 +1,5 @@
 import { Component } from "react";
+import axios from "./axios";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 
@@ -7,17 +8,23 @@ export default class App extends Component {
         super();
         // hard code, make it dynamic with the data from the diMounted
         this.state = {
-            first: 'Magali',
-            last: 'Silva',
-            email: 'email',
-            id: 'id',
+            profilePic: null,
             uploaderIsVisible: false
         };
     }
     
-
     componentDidMount() {
         console.log('App mounted!');
+        axios.get('/profile').then(({ data }) => {
+            console.log('data', data);
+            this.setState({
+                id: data.id,
+                first: data.first_name,
+                last: data.last_name,
+                email: data.email,
+                profilePic: data.profile_pic,
+            });
+        });
     }
 
     toggleUploader() {
@@ -25,15 +32,6 @@ export default class App extends Component {
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
-        // if(!this.state.uploaderIsVisible) {
-        //     this.setState({
-        //         uploaderIsVisible: true,
-        //     });
-        // } else {
-        //     this.setState({
-        //         uploaderIsVisible: false,
-        //     });
-        // }
     }
 
     setImage(newProfilePic) {

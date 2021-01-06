@@ -18,7 +18,7 @@ export default class Uploader extends Component {
         return (
             <div>
                 <h1 onClick={() => this.handleClick()}>Uploader</h1>
-
+            
             </div>
         );
     }

@@ -53,7 +53,7 @@ export default class ResetPassword extends Component {
         e.preventDefault();
         axios
             .post("/welcome/reset-password/verify", this.state)
-            .then(({data}) => {
+            .then(({ data }) => {
                 console.log("res ", data);
                 if (!data.success) {
                     this.setState({
