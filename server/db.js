@@ -50,7 +50,9 @@ module.exports.getCode = (email) => {
     const q = `
         SELECT *
         FROM reset_codes
-        WHERE email = $1 AND CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes';
+        WHERE email = $1 AND CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes'
+        ORDER BY timestamp DESC
+        LIMIT 1;
         `;
     const params = [email];
     return db.query(q, params);

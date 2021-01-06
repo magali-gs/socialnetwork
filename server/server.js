@@ -110,46 +110,38 @@ app.post("/welcome/login", (req, res) => {
         });
 });
 
-app.get("/welcome/reset-password", (req, res) => {
-    // if (req.session.userId) {
-    //they shouldn't be allowed to see /welcome
-    // res.redirect("/");
-    // } else {
-    //the user is allowed to see the welcome page
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-    // }
-});
+// app.get("/welcome/reset-password", (req, res) => {
+//     // if (req.session.userId) {
+//     //they shouldn't be allowed to see /welcome
+//     // res.redirect("/");
+//     // } else {
+//     //the user is allowed to see the welcome page
+//     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+//     // }
+// });
 
 app.post("/welcome/reset-password/start", (req, res) => {
-    console.log("req.body", req.body);
     const { email } = req.body;
     db.getUserEmail(email)
         .then(({ rows }) => {
-            console.log("rows", rows);
             if (rows.length > 0) {
                 const secretCode = cryptoRandomString({
                     length: 6,
                 });
-                console.log("secretCode", secretCode);
                 db.addCode(email, secretCode)
                     .then(() => {
                         //send the email
-                        var subj = "XXX Password Reset";
-                        var msg = `Greetings from XXX,
+                        var subj = "Social Network Password Reset";
+                        var msg = 
+`Greetings from Social Network,
 
-                            To reset your password for XX, please enter the following 
-                            code and the new password in the reset password page.
+To reset your password for Social Network, please enter the followingcode and the new password in the reset password page.
+    ${secretCode}
 
-                            ${secretCode}
-
-                            If you don't want to reset your password, you can ignore this 
-                            message - someone probably typed in your username or email address 
-                            by mistake.
-
-                            Thanks! 
-                            Team Snapchat
-                        `;
-                        // var email = email;
+If you don't want to reset your password, you can ignore this message - someone probably typed in your username or email address by mistake.
+                        
+Thanks! 
+Team Social Network`;
                         sendEmail(email, msg, subj)
                             .then(() => {
                                 res.json({ success: true });
@@ -169,6 +161,36 @@ app.post("/welcome/reset-password/start", (req, res) => {
         })
         .catch((error) => {
             console.log("error in getUserEmail", error);
+            res.json({ error: true });
+        });
+});
+
+app.post("/welcome/reset-password/verify", (req, res) => {
+    console.log(req.body);
+    const { email, resetCode, password } = req.body;
+    db.getCode(email)
+        .then(({ rows }) => {
+            console.log(rows);
+            if (resetCode === rows[0].code) {
+                console.log('alterar senha');
+                hash(password)
+                    .then((hashedPw) => {
+                        db.editPassword(email, hashedPw)
+                            .then(({rows}) => {
+                                console.log("editPassword worked", rows);
+                                res.json({ success: true });
+                            }).catch((error) => {
+                                console.log('error in editPassword', error);
+                                res.json({ error: true });
+                            });
+                    });
+            } else {
+                console.log('code doesnt match');
+                res.json({ error: true });
+            }
+        })
+        .catch((error) => {
+            console.log('error in getCode: ', error);
             res.json({ error: true });
         });
 });

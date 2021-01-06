@@ -20,7 +20,7 @@ export default class ResetPassword extends Component {
         );
     }
 
-    resetPassword(e) {
+    sendCode(e) {
         console.log("handleClick ", this.state);
         e.preventDefault();
         axios
@@ -34,6 +34,34 @@ export default class ResetPassword extends Component {
                 } else {
                     this.setState({
                         view: 1,
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(
+                    "error on axios.post /reset-password/start: ",
+                    error
+                );
+                this.setState({
+                    error: true,
+                });
+            });
+    }
+
+    resetPassword(e) {
+        console.log("handleClick ", this.state);
+        e.preventDefault();
+        axios
+            .post("/welcome/reset-password/verify", this.state)
+            .then(({data}) => {
+                console.log("res ", data);
+                if (!data.success) {
+                    this.setState({
+                        error: true,
+                    });
+                } else {
+                    this.setState({
+                        view: 2,
                     });
                 }
             })
@@ -78,7 +106,7 @@ export default class ResetPassword extends Component {
                             Code
                             <input
                                 onChange={(e) => this.handleChange(e)}
-                                name="code"
+                                name="resetCode"
                                 placeholder="Code"
                                 type="text"
                             />
@@ -92,7 +120,7 @@ export default class ResetPassword extends Component {
                                 type="password"
                             />
                         </label>
-                        <button onClick={(e) => this.handleClick(e)}>
+                        <button onClick={(e) => this.resetPassword(e)}>
                             Submit
                         </button>
                     </div>
@@ -117,7 +145,7 @@ export default class ResetPassword extends Component {
                                 type="text"
                             />
                         </label>
-                        <button onClick={(e) => this.resetPassword(e)}>
+                        <button onClick={(e) => this.sendCode(e)}>
                             Submit
                         </button>
                     </div>

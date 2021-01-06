@@ -21,7 +21,7 @@ export default class Login extends Component {
 
     handleClick(e) {
         console.log("handleClick ", this.state);
-        // e.preventDefault();
+        e.preventDefault();
         axios.post("/welcome/login", this.state)
             .then(({ data }) => {
                 console.log("data ", data);
