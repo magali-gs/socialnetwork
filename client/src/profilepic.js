@@ -1,25 +1,27 @@
-// import React from "react";
+import React from "react";
 
-//with descontructor
-export default function ProfilePic({ first, last, profilePic }) {
-    console.log("props in ProfilePic: ", first, last, profilePic);
-    let picUrl;
-    if(!profilePic) {
-        picUrl = "../default-img.png";
-    } else {
-        picUrl = profilePic;
-    }
-
+export default function ProfilePic({ first, last, profilePic, toggleUploader }) {
     return (
         <div>
             <h1>
                 ProfilePic: {first} {last}
             </h1>
-            <img
-                className={picUrl}
-                src="../default-img.png"
-                alt={`${first} ${last}`}
-            />
+            {!profilePic && (
+                <img
+                    onClick={() => toggleUploader()}
+                    className="profile-img"
+                    src="../default-img.png"
+                    alt={`${first} ${last}`}
+                />
+            )}
+            {profilePic && (
+                <img
+                    onClick={() => toggleUploader()}
+                    className="profile-img"
+                    src={profilePic}
+                    alt={`${first} ${last}`}
+                />
+            )}
         </div>
     );
 }

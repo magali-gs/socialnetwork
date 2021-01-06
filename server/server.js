@@ -198,10 +198,8 @@ app.post("/welcome/reset-password/verify", (req, res) => {
 });
 
 app.get('/profile', (req, res) => {
-    console.log(req.session.userId);
     db.getUserProfile(req.session.userId)
         .then(({ rows }) => {
-            console.log('rows', rows[0]);
             res.json(rows[0]);
         }).catch((error) => {
             console.log("error in /profile route - getUserProfile", error);
@@ -209,9 +207,21 @@ app.get('/profile', (req, res) => {
         });
 });
 
-// app.post('/profile', uploader.single('image'), s3.upload, (req, res) => {
-//     console.log('');
-// });
+app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
+    if (req.file) {
+        const url = `${s3Url}${req.file.filename}`;
+        db.editProfilePic(req.session.userId, url)
+            .then(() => {
+                res.json({ sucess: true, url: url });
+            })
+            .catch((error) => {
+                console.log("Error in editProfilePic: ", error);
+                res.json({ error: true });
+            });
+    } else {
+        res.json({ error: true });
+    }
+});
 
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {

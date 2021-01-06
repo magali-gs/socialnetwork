@@ -6,7 +6,6 @@ import Uploader from "./uploader";
 export default class App extends Component {
     constructor() {
         super();
-        // hard code, make it dynamic with the data from the diMounted
         this.state = {
             profilePic: null,
             uploaderIsVisible: false
@@ -14,9 +13,7 @@ export default class App extends Component {
     }
     
     componentDidMount() {
-        console.log('App mounted!');
         axios.get('/profile').then(({ data }) => {
-            console.log('data', data);
             this.setState({
                 id: data.id,
                 first: data.first_name,
@@ -28,16 +25,14 @@ export default class App extends Component {
     }
 
     toggleUploader() {
-        // console.log('toggle uploader is running');
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
     }
 
     setImage(newProfilePic) {
-        console.log("newProfilePic", newProfilePic);
         this.setState({
-            profilePic: 'whatever the new profile pic is',
+            profilePic: newProfilePic,
         });
     }
 
@@ -45,12 +40,15 @@ export default class App extends Component {
         return (
             <div>
                 <h1>App</h1>
-                <ProfilePic 
-                    first={this.state.first} 
-                    last={this.state.last} 
+                <ProfilePic
+                    first={this.state.first}
+                    last={this.state.last}
+                    profilePic={this.state.profilePic}
+                    toggleUploader={() => this.toggleUploader()}
                 />
-                <h2 onClick={() => this.toggleUploader()}>Click here</h2>
-                {this.state.uploaderIsVisible && (<Uploader setImage={(e) => this.setImage(e)}/>)}
+                {this.state.uploaderIsVisible && (
+                    <Uploader setImage={(e) => this.setImage(e)} />
+                )}
             </div>
         );
     }

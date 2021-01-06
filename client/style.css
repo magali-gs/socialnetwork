@@ -42,3 +42,8 @@ button {
     line-height: 16px;
 
 }
+
+.profile-img {
+    height: 200px;
+    width: 200px;
+}

@@ -16,10 +16,6 @@ export default class Registration extends Component {
 
     handleChange(e) {
         //it takes the user input and store it in state
-        // console.log("event object: ", e);
-        // console.log("event object: e.target.value", e.target.value);
-        // console.log("event object: e.target.name", e.target.name);
-
         //add the input's info to state
         this.setState({
             //name of input field: user input field
@@ -46,6 +42,9 @@ export default class Registration extends Component {
             })
             .catch((error) => {
                 console.log("error on axios.post /registration: ", error);
+                this.setState({
+                    error: true,
+                });
             });
     }
 
