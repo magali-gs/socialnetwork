@@ -72,7 +72,22 @@ input {
     transition: 0.2s linear;
 }
 
-input:focus {
+textarea {
+    display: block;
+    margin-top: 2%;
+    padding: 15px;
+    width: 240px;
+    height: 150px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    color: #5E6472;
+    font-size: 16px;
+    font-family: "Comfortaa";
+    transition: 0.2s linear;
+}
+
+input:focus, textarea:focus {
     transform: translateX(-2px);
 }
 
@@ -93,7 +108,7 @@ button {
     transition: all 0.2s linear;
 }
 
-.log-in, .sig-up, .close {
+.log-in, .sig-up, .close, .edit {
     background: #B8F2E6;
 }
 

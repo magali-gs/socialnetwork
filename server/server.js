@@ -239,6 +239,22 @@ app.post(("/edit-bio"), (req, res) => {
         });
 });
 
+app.post("/delete-bio", (req, res) => {
+    console.log("POST request in /edit-bio route", req.body);
+    const { draftBio = null } = req.body;
+    db.editBio(req.session.userId, draftBio)
+        .then(() => {
+            res.json({
+                success: true,
+                bio: draftBio,
+            });
+        })
+        .catch((error) => {
+            console.log("error in editBio", error);
+            res.json({ error: true });
+        });
+});
+
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {
     if (!req.session.userId) {

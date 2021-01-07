@@ -43,7 +43,6 @@ export default class Uploader extends Component {
     }
 
     render() {
-        console.log("props in uploader", this.props);
         return (
             <div className='overlay'>
                 <div className="uploadModal formField">
