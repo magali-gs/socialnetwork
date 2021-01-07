@@ -112,7 +112,7 @@ button {
     background: #B8F2E6;
 }
 
-.frgt-pass {
+.frgt-pass, .delete {
     background: transparent;
 }
 

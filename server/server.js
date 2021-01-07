@@ -255,6 +255,20 @@ app.post("/delete-bio", (req, res) => {
         });
 });
 
+app.post("/delete-profile-pic", (req, res) => {
+    console.log("POST request in /delete-profile-pic route", req.body);
+    const url = null;
+    db.editProfilePic(req.session.userId, url)
+        .then(() => {
+            res.json({ sucess: true, url: url });
+        })
+        .catch((error) => {
+            console.log("Error in delete-profile-pic: ", error);
+            res.json({ error: true });
+        });
+
+});
+
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {
     if (!req.session.userId) {

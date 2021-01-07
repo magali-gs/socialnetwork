@@ -34,8 +34,33 @@ export default class Uploader extends Component {
                         error: true,
                     });
                 }
-            }).catch((error) => {
-                console.log('error ', error);
+            })
+            .catch((error) => {
+                console.log("error ", error);
+                this.setState({
+                    error: true,
+                });
+            });
+    }
+
+    handleDelete(e) {
+        e.preventDefault();
+        console.log('yeee');
+        axios
+            .post("/delete-profile-pic")
+            .then(({ data }) => {
+                console.log("data", data);
+                if (data.sucess) {
+                    this.props.setImage(data.url);
+                    this.props.toggleUploader();
+                } else {
+                    this.setState({
+                        error: true,
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log("error ", error);
                 this.setState({
                     error: true,
                 });
@@ -44,7 +69,7 @@ export default class Uploader extends Component {
 
     render() {
         return (
-            <div className='overlay'>
+            <div className="overlay">
                 <div className="uploadModal formField">
                     <header>
                         <h2>Uploader</h2>
@@ -65,6 +90,12 @@ export default class Uploader extends Component {
                         />
                         <button onClick={(e) => this.handleUpload(e)}>
                             Update
+                        </button>
+                        <button
+                            className="delete"
+                            onClick={(e) => this.handleDelete(e)}
+                        >
+                            Delete Image
                         </button>
                         <button
                             className="close"
