@@ -5,6 +5,7 @@ export default class Uploader extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            image: this.props.image,
             error: false,
         };
     }
@@ -28,7 +29,7 @@ export default class Uploader extends Component {
                 console.log("data", data);
                 if (data.sucess) {
                     this.props.setImage(data.url);
-                    this.toggleUploader();
+                    this.props.toggleUploader();
                 } else {
                     this.setState({
                         error: true,
@@ -45,9 +46,8 @@ export default class Uploader extends Component {
 
     handleDelete(e) {
         e.preventDefault();
-        console.log('yeee');
         axios
-            .post("/delete-profile-pic")
+            .post("/delete-profile-pic", this.state)
             .then(({ data }) => {
                 console.log("data", data);
                 if (data.sucess) {
@@ -91,12 +91,12 @@ export default class Uploader extends Component {
                         <button onClick={(e) => this.handleUpload(e)}>
                             Update
                         </button>
-                        <button
+                        {this.props.image && (<button
                             className="delete"
                             onClick={(e) => this.handleDelete(e)}
                         >
                             Delete Image
-                        </button>
+                        </button>)}
                         <button
                             className="close"
                             onClick={() => this.props.toggleUploader()}

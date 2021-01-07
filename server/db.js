@@ -83,13 +83,14 @@ module.exports.editProfilePic = (userId, url) => {
     const q = `
         UPDATE users 
         SET profile_pic=$2
-        WHERE id=$1;
+        WHERE id=$1
+        RETURNING profile_pic;
         `;
     const params = [userId, url];
     return db.query(q, params);
 };
 
-/////////////////////////QUERY for edit bio///////////////////////////
+/////////////////////////QUERY for edit/delete bio///////////////////////////
 module.exports.editBio = (userId, bio) => {
     const q = `
         UPDATE users 

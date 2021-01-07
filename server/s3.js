@@ -42,3 +42,24 @@ module.exports.upload = (req, res, next) => {
             res.statusCode(404); //confirm if this error is correct
         });
 };
+
+module.exports.delete = (req, res, next) => {
+    const filename = req.body.image.substr(42);
+
+    const promise = s3
+        .deleteObject({
+            Bucket: "magaliimageboard", //my own bucket
+            Key: filename,
+        })
+        .promise(); //this makes it returns any promises
+
+    promise
+        .then(() => {
+            console.log("amazon delete complete :)");
+            next();
+        })
+        .catch((err) => {
+            console.log("Something went wrong in deletion to S3", err);
+            res.statusCode(404); //confirm if this error is correct
+        });
+};

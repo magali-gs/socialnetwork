@@ -255,12 +255,12 @@ app.post("/delete-bio", (req, res) => {
         });
 });
 
-app.post("/delete-profile-pic", (req, res) => {
+app.post("/delete-profile-pic", s3.delete, (req, res) => {
     console.log("POST request in /delete-profile-pic route", req.body);
-    const url = null;
-    db.editProfilePic(req.session.userId, url)
+    const newUrl = null;
+    db.editProfilePic(req.session.userId, newUrl)
         .then(() => {
-            res.json({ sucess: true, url: url });
+            res.json({ sucess: true, url: newUrl });
         })
         .catch((error) => {
             console.log("Error in delete-profile-pic: ", error);
