@@ -228,7 +228,6 @@ app.post(("/edit-bio"), (req, res) => {
     const { draftBio } = req.body;
     db.editBio(req.session.userId, draftBio)
         .then(() => {
-            console.log("res.json", res);
             res.json({
                 success: true,
                 bio: draftBio

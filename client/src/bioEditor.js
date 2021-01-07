@@ -34,15 +34,13 @@ export default class BioEditor extends Component {
             .then(({ data }) => {
                 console.log("data", data);
                 this.setState({ textareaVisible: false });
-                if (data.sucess) {
-                    this.props.setBio(data.bio);
-                    this.setState({ textareaVisible: false });
-                    
-                } else {
-                    this.setState({
-                        error: true,
-                    });
-                }
+                // if (data.sucess) {
+                    this.props.setBio(data.bio);                    
+                // } else {
+                //     this.setState({
+                //         error: true,
+                //     });
+                // }
             }).catch((error) => {
                 console.log('error ', error);
                 this.setState({
@@ -66,7 +64,7 @@ export default class BioEditor extends Component {
                     <textarea
                         name="draftBio"
                         onChange={(e) => this.handleChange(e)}
-                        value={this.props.bio}
+                        defaultValue={this.props.bio}
                     />
                 )}
                 {!this.props.bio && !this.state.textareaVisible && (
@@ -76,7 +74,7 @@ export default class BioEditor extends Component {
                 )}
 
                 {this.props.bio && !this.state.textareaVisible && (
-                    <p>Bio {this.props.bio}</p>
+                    <p>{this.props.bio}</p>
                 )}
 
                 {this.props.bio && !this.state.textareaVisible && (
