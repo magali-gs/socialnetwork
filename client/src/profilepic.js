@@ -1,12 +1,8 @@
 import React from "react";
 
 export default function ProfilePic({ first, last, image, toggleUploader }) {
-    
     return (
-        <div>
-            <h1>
-                ProfilePic: {first} {last}
-            </h1>
+        <div className='image-cropper'>
             {!image && (
                 <img
                     onClick={() => toggleUploader()}

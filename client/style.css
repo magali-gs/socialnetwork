@@ -3,47 +3,184 @@
 body {
     box-sizing: border-box;
     margin: 0;
-    background-color: ghostwhite;
-    font-family: "Playfair Display";
+    background-image: linear-gradient(-232deg, #E3FDF5 0%, #FFE6FA 100%);
+    background-image: linear-gradient(to top, #A8EDEA 0%, #FED6E3 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-family: "Comfortaa";
     color: #2A293E;
     
 }
 
-.formField {
-    background-color: #f8f4e5;
-    padding: 50px 100px;
-    border-top: 10px solid #f45702;
+.errorMessage {
+    background: 
+    linear-gradient(180deg, red 50%, rgba(230, 32, 32, 0) 50%);
+    font-weight: bold;
 }
 
-label, input {
-    display: block;
-    width: 100%;
-    font-size: 16px;
-    line-height: 22px;
-    font-family: "Comfortaa";
+.formField {
+    margin: 2% auto;
+    padding: 2%;
+    width: 450px;
+    height: auto;
+    border-radius: 5px;
+    min-height: 500px;
+    background-image: linear-gradient(-232deg, #E3FDF5 50%, #FFE6FA 50%);
+    box-shadow: 0 9px 50px hsla(20, 67%, 75%, 0.31);
 }
+
+.formField .form {
+    margin: 0 auto;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+  
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+header {
+    margin: 2% auto 10% auto;
+    text-align: center;
+}
+
+header h2 {
+    font-size: 250%;
+    font-family: 'Playfair Display', serif;
+    color: #3e403f;
+}
+
+header p {
+    letter-spacing: 0.05em;
+}
+
 
 input {
-    margin-bottom: 22px;
-    border: none;
-    border: 1px solid rgba(0,0,0,.1);
-    border-radius: 2px;
-    padding-left: 5px ;
+    display: block;
+    margin-top: 2%;
+    padding: 0 15px;
+    width: 240px;
+    height: 50px;
     outline: none;
-    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    color: #5E6472;
+    font-size: 16px;
+    font-family: "Comfortaa";
+    transition: 0.2s linear;
+}
+
+input:focus {
+    transform: translateX(-2px);
 }
 
 button {
-    display: block;
+    display: inline-block;
+    margin: 7% auto;
     padding: 0 20px;
+    width: 280px;
+    height: 50px;
     border: none;
-    background-color: #f45702;
-    color: white;
-    line-height: 16px;
-
+    border-radius: 5px;
+    outline: none;
+    background-color: #fff;
+    font-size: 16px;
+    color: #252537;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s linear;
 }
 
+.log-in, .sig-up, .close {
+    background: #B8F2E6;
+}
+
+.frgt-pass {
+    background: transparent;
+}
+
+.submits {
+    width: 48%;
+    display: inline-block;
+    float: left;
+    margin-left: 2%;
+}
+
+button:hover {
+    transform: translateY(3px);
+    animation: ani9 0.4s ease-in-out infinite alternate;
+    box-shadow: none;
+}
+
+input[type=file] {
+    -webkit-appearance: textfield;
+    width: 240px;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background-color: #fff;
+    color: #5E6472;
+    font-size: 16px;
+    font-family: "Comfortaa";
+    text-align: center;
+    cursor: pointer;
+}
+
+input[type=file]::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.image-cropper{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    overflow: hidden;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    
+}
 .profile-img {
-    height: 200px;
-    width: 200px;
+    display: inline;
+    margin: 0 auto;
+    margin-left: -25%;
+    height: 100%;
+    width: auto;
+}
+
+.overlay {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    margin: 0;
+    left: 0;
+    padding: 1vh 1vw;
+    background-color: rgba(244, 244, 243, 0.322);
+}
+
+.profile-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 30%  1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.bio-container {
+    grid-column: 2;
+}
+
+.profile-container .image-cropper {
+    position: relative;
+    overflow: hidden;
+    grid-row: 1 / 2;
+    margin: 0 50px;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ;
+    width: 250px;
+    height: 250px;
+    cursor: pointer;
 }

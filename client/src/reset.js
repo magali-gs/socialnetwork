@@ -79,74 +79,79 @@ export default class ResetPassword extends Component {
     render() {
         if (this.state.view === 2) {
             return (
-                <div className="loginField">
-                    <h1>Reset Password</h1>
-                    {this.state.error && (
-                        <p className="errorMessage">
-                            Something went wrong. Please try again
-                        </p>
-                    )}
-                    <div className="formField">
-                        <h3>Success!</h3>
-                        <Link to="/login">Log in!</Link>
+                <div className="formField">
+                    <header>
+                        <h2>Reset Password</h2>
+                        {this.state.error && (
+                            <p className="errorMessage">
+                                Something went wrong. Please try again
+                            </p>
+                        )}
+                    </header>
+                    <div className="form">
+                        <p>Your password was sucessfully updated! </p>
+                        <Link to="/login">
+                            <button>Log In</button>
+                        </Link>
                     </div>
                 </div>
             );
         } else if (this.state.view === 1) {
             return (
-                <div className="loginField">
-                    <h1>Reset Password</h1>
-                    {this.state.error && (
-                        <p className="errorMessage">
-                            Something went wrong. Please try again
-                        </p>
-                    )}
-                    <div className="formField">
-                        <label>
-                            Code
-                            <input
-                                onChange={(e) => this.handleChange(e)}
-                                name="resetCode"
-                                placeholder="Code"
-                                type="text"
-                            />
-                        </label>
-                        <label>
-                            Password
-                            <input
-                                onChange={(e) => this.handleChange(e)}
-                                name="password"
-                                placeholder="Password"
-                                type="password"
-                            />
-                        </label>
+                <div className="formField">
+                    <header>
+                        <h2>Reset Password</h2>
+                        <p>Please enter the code that was recently sent to you and your new password</p>
+                        {this.state.error && (
+                            <p className="errorMessage">
+                                Something went wrong. Please try again
+                            </p>
+                        )}
+                    </header>
+                    <div className="form">
+                        <input
+                            onChange={(e) => this.handleChange(e)}
+                            name="resetCode"
+                            placeholder="Code"
+                            type="text"
+                            required
+                        />
+                        <input
+                            onChange={(e) => this.handleChange(e)}
+                            name="password"
+                            placeholder="Password"
+                            type="password"
+                            required
+                        />
                         <button onClick={(e) => this.resetPassword(e)}>
-                            Submit
+                            Reset Password
                         </button>
                     </div>
                 </div>
             );
         } else {
             return (
-                <div className="loginField">
-                    <h1>Reset Password</h1>
-                    {this.state.error && (
-                        <p className="errorMessage">
-                            Something went wrong. Please try again
-                        </p>
-                    )}
-                    <div className="formField">
-                        <label>
-                            Email
-                            <input
-                                onChange={(e) => this.handleChange(e)}
-                                name="email"
-                                placeholder="Email"
-                                type="text"
-                            />
-                        </label>
+                <div className="formField">
+                    <header>
+                        <h2>Reset Password</h2>
+                        <p>Please your e-mail and we will send to your the reset code</p>
+                        {this.state.error && (
+                            <p className="errorMessage">
+                                Something went wrong. Please try again
+                            </p>
+                        )}
+                    </header>
+                    <div className="form">
+
+                        <input
+                            onChange={(e) => this.handleChange(e)}
+                            name="email"
+                            placeholder="Email"
+                            type="text"
+                            required
+                        />
                         <button onClick={(e) => this.sendCode(e)}>
-                            Submit
+                            Send Reset Code
                         </button>
                     </div>
                 </div>

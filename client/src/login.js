@@ -39,37 +39,43 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className="loginField">
-                <h1>Login</h1>
-                {this.state.error && (
-                    <p className="errorMessage">
-                        Something went wrong. Please try again
-                    </p>
-                )}
-                <div className="formField">
-                    <label>
-                        Email
-                        <input
-                            onChange={(e) => this.handleChange(e)}
-                            name="email"
-                            placeholder="Email"
-                            type="text"
-                        />
-                    </label>
-                    <label>
-                        Password
-                        <input
-                            onChange={(e) => this.handleChange(e)}
-                            name="password"
-                            placeholder="Password"
-                            type="password"
-                        />
-                    </label>
+            <div className="formField">
+                <header>
+                    <h2>Login</h2>
+                    <p>login here using your email and password</p>
+                    {this.state.error && (
+                        <p className="errorMessage">
+                            Something went wrong. Please try again
+                        </p>
+                    )}
+                </header>
+                <div className="form">
+                    <input
+                        onChange={(e) => this.handleChange(e)}
+                        name="email"
+                        placeholder="Email"
+                        type="text"
+                        required
+                    />
+
+                    <input
+                        onChange={(e) => this.handleChange(e)}
+                        name="password"
+                        placeholder="Password"
+                        type="password"
+                        required
+                    />
+
                     <button onClick={(e) => this.handleClick(e)}>Submit</button>
                 </div>
-                {/* create a Link to reset-password */}
-                <Link to="/">Click here to Register!</Link>
-                <Link to="/reset-password">Reset password!</Link>
+                <Link to="/">
+                    <button className="sig-up submits">Sign Up</button>
+                </Link>
+                <Link to="/reset-password">
+                    <button className="frgt-pass submits">
+                        Forgot Password
+                    </button>
+                </Link>
             </div>
         );
     }

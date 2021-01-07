@@ -34,13 +34,8 @@ export default class BioEditor extends Component {
             .then(({ data }) => {
                 console.log("data", data);
                 this.setState({ textareaVisible: false });
-                // if (data.sucess) {
-                    this.props.setBio(data.bio);                    
-                // } else {
-                //     this.setState({
-                //         error: true,
-                //     });
-                // }
+                this.props.setBio(data.bio);                    
+
             }).catch((error) => {
                 console.log('error ', error);
                 this.setState({
@@ -49,10 +44,9 @@ export default class BioEditor extends Component {
             });
     }
 
-
     render() {
         return (
-            <div>
+            <div className='bio-container'>
                 <h1>BIO EDITOR </h1>
                 {this.state.error && (
                     <p className="errorMessage">

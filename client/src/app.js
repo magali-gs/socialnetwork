@@ -71,7 +71,10 @@ export default class App extends Component {
                     setBio={(e) => this.setBio(e)}
                 />
                 {this.state.uploaderIsVisible && (
-                    <Uploader setImage={(e) => this.setImage(e)} />
+                    <Uploader 
+                        setImage={(e) => this.setImage(e)} 
+                        toggleUploader={() => this.toggleUploader()}
+                    />
                 )}
             </div>
         );

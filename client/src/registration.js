@@ -50,53 +50,61 @@ export default class Registration extends Component {
 
     render() {
         return (
-            <div className="registerField">
-                <h1>Registration</h1>
-                {this.state.error && (
-                    <p className="errorMessage">
-                        Something went wrong. Please try again
-                    </p>
-                )}
-                <div className="formField">
-                    <label>
-                        First Name
-                        <input
-                            onChange={(e) => this.handleChange(e)}
-                            name="first"
-                            placeholder="First Name"
-                            type="text"
-                        />
-                    </label>
-                    <label>
-                        Last Name
-                        <input
-                            onChange={(e) => this.handleChange(e)}
-                            name="last"
-                            placeholder="Last Name"
-                            type="text"
-                        />
-                    </label>
-                    <label>
-                        Email
-                        <input
-                            onChange={(e) => this.handleChange(e)}
-                            name="email"
-                            placeholder="Email"
-                            type="text"
-                        />
-                    </label>
-                    <label>
-                        Password
-                        <input
-                            onChange={(e) => this.handleChange(e)}
-                            name="password"
-                            placeholder="Password"
-                            type="password"
-                        />
-                    </label>
-                    <button onClick={(e) => this.handleClick(e)}>Submit</button>
+            <div className="formField">
+                <div className="form">
+                    <header>
+                        <h2>Registration</h2>
+                        <p>
+                            join millions of artisans sharing their experiences
+                        </p>
+                        {this.state.error && (
+                            <p>
+                                <span className="errorMessage">
+                                    Something went wrong. Please try again
+                                </span>
+                            </p>
+                        )}
+                    </header>
+
+                    <input
+                        onChange={(e) => this.handleChange(e)}
+                        name="first"
+                        placeholder="First Name"
+                        type="text"
+                        required
+                    />
+
+                    <input
+                        onChange={(e) => this.handleChange(e)}
+                        name="last"
+                        placeholder="Last Name"
+                        type="text"
+                        required
+                    />
+
+                    <input
+                        onChange={(e) => this.handleChange(e)}
+                        name="email"
+                        placeholder="Email"
+                        type="text"
+                        required
+                    />
+
+                    <input
+                        onChange={(e) => this.handleChange(e)}
+                        name="password"
+                        placeholder="Password"
+                        type="password"
+                        required
+                    />
+                    <button onClick={(e) => this.handleClick(e)}>
+                        Sign Up
+                    </button>
+                    <p>If you are already a member</p>
+                    <Link to="/login">
+                        <button className="log-in">Log In</button>
+                    </Link>
                 </div>
-                <Link to="/login">Click here to Log in!</Link>
             </div>
         );
     }
