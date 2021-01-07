@@ -71,7 +71,7 @@ module.exports.editPassword = (email, password) => {
 /////////////////////////QUERY for upload picture/////////////////////////
 module.exports.getUserProfile = (userId) => {
     const q = `
-        SELECT id, first_name, last_name, email, profile_pic
+        SELECT id, first_name, last_name, email, bio, profile_pic
         FROM users
         WHERE id = $1;
         `;
@@ -89,4 +89,13 @@ module.exports.editProfilePic = (userId, url) => {
     return db.query(q, params);
 };
 
-/////////////////////////QUERY for reset password///////////////////////////
+/////////////////////////QUERY for edit bio///////////////////////////
+module.exports.editBio = (userId, bio) => {
+    const q = `
+        UPDATE users 
+        SET bio=$2
+        WHERE id=$1;
+        `;
+    const params = [userId, bio];
+    return db.query(q, params);
+};

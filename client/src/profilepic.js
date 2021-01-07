@@ -1,12 +1,13 @@
 import React from "react";
 
-export default function ProfilePic({ first, last, profilePic, toggleUploader }) {
+export default function ProfilePic({ first, last, image, toggleUploader }) {
+    
     return (
         <div>
             <h1>
                 ProfilePic: {first} {last}
             </h1>
-            {!profilePic && (
+            {!image && (
                 <img
                     onClick={() => toggleUploader()}
                     className="profile-img"
@@ -14,11 +15,11 @@ export default function ProfilePic({ first, last, profilePic, toggleUploader }) 
                     alt={`${first} ${last}`}
                 />
             )}
-            {profilePic && (
+            {image && (
                 <img
                     onClick={() => toggleUploader()}
                     className="profile-img"
-                    src={profilePic}
+                    src={image}
                     alt={`${first} ${last}`}
                 />
             )}

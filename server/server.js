@@ -223,6 +223,23 @@ app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
     }
 });
 
+app.post(("/edit-bio"), (req, res) => {
+    console.log("POST request in /edit-bio route", req.body);
+    const { draftBio } = req.body;
+    db.editBio(req.session.userId, draftBio)
+        .then(() => {
+            console.log("res.json", res);
+            res.json({
+                success: true,
+                bio: draftBio
+            });
+        })
+        .catch((error) => {
+            console.log("error in editBio", error);
+            res.json({ error: true });
+        });
+});
+
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {
     if (!req.session.userId) {

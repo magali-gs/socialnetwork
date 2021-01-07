@@ -10,3 +10,5 @@ CREATE TABLE users(
 );
 
 ALTER TABLE users ADD COLUMN profile_pic VARCHAR;
+
+ALTER TABLE users ADD COLUMN bio VARCHAR;

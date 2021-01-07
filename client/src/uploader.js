@@ -44,7 +44,7 @@ export default class Uploader extends Component {
     render() {
         console.log("props in uploader", this.props);
         return (
-            <div>
+            <div className='uploadModal'>
                 <h1>Uploader</h1>
                 {this.state.error && (
                     <p className="errorMessage">
