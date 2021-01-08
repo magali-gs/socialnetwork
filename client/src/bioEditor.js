@@ -80,7 +80,9 @@ export default class BioEditor extends Component {
                         )}
                         {!this.props.bio && !this.state.textareaVisible && (
                             <p onClick={() => this.toggleTextarea()}>
-                                Add your bio now
+                                <span className="highlight">
+                                    Add your bio now
+                                </span>
                             </p>
                         )}
 
@@ -106,15 +108,6 @@ export default class BioEditor extends Component {
                         {this.state.textareaVisible && (
                             <button onClick={(e) => this.submitBio(e)}>
                                 Save
-                            </button>
-                        )}
-
-                        {this.state.textareaVisible && (
-                            <button
-                                className="close"
-                                onClick={() => this.toggleTextarea()}
-                            >
-                                Cancel
                             </button>
                         )}
                     </div>
@@ -145,15 +138,14 @@ export default class BioEditor extends Component {
                                         Save
                                     </button>
                                 )}
-
-                                {this.state.textareaVisible && (
-                                    <button
-                                        className="close"
-                                        onClick={() => this.toggleTextarea()}
-                                    >
-                                        Cancel
-                                    </button>
-                                )}
+                            </div>
+                            <div
+                                className="outer"
+                                onClick={() => this.toggleTextarea()}
+                            >
+                                <div className="inner">
+                                    <label>Close</label>
+                                </div>
                             </div>
                         </div>
                     </div>

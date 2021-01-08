@@ -5,7 +5,9 @@ export default class Uploader extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            image: this.props.image,
+            image: this.props.image, 
+            uploading: '',
+            hidden: '',
             error: false,
         };
     }
@@ -21,6 +23,10 @@ export default class Uploader extends Component {
 
     handleUpload(e) {
         e.preventDefault();
+        this.setState({
+            uploading: "spinner",
+            hidden: "hidden",
+        });
         var formData = new FormData();
         formData.append("image", this.state.image);
         axios
@@ -33,6 +39,8 @@ export default class Uploader extends Component {
                 } else {
                     this.setState({
                         error: true,
+                        uploading: "",
+                        hidden: "",
                     });
                 }
             })
@@ -40,6 +48,8 @@ export default class Uploader extends Component {
                 console.log("error ", error);
                 this.setState({
                     error: true,
+                    uploading: "",
+                    hidden: "",
                 });
             });
     }
@@ -88,21 +98,28 @@ export default class Uploader extends Component {
                             accept="image/*"
                             className="inputfile"
                         />
-                        <button onClick={(e) => this.handleUpload(e)}>
-                            Update
-                        </button>
-                        {this.props.image && (<button
-                            className="delete"
-                            onClick={(e) => this.handleDelete(e)}
-                        >
-                            Delete Image
-                        </button>)}
                         <button
-                            className="close"
-                            onClick={() => this.props.toggleUploader()}
+                            onClick={(e) => this.handleUpload(e)}
                         >
-                            Close modal
+                            <span className={this.state.uploading}></span>
+                            <span className={this.state.hidden}>Update</span>
                         </button>
+                        {this.props.image && (
+                            <button
+                                className="delete"
+                                onClick={(e) => this.handleDelete(e)}
+                            >
+                                Delete Image
+                            </button>
+                        )}
+                    </div>
+                    <div
+                        className="outer"
+                        onClick={() => this.props.toggleUploader()}
+                    >
+                        <div className="inner">
+                            <label>Close</label>
+                        </div>
                     </div>
                 </div>
             </div>

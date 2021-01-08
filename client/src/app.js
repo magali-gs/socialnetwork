@@ -15,7 +15,7 @@ export default class App extends Component {
             last: "",
             email: "",
             bio: "",
-            image: "",
+            image: "",//definir a default image aqui!!
             uploaderIsVisible: false,
         };
     }
@@ -53,6 +53,11 @@ export default class App extends Component {
     }
 
     render() {
+        //online for test purposes
+        if(!this.state.id) {
+            return null;
+        }
+
         return (
             <BrowserRouter>
                 <div>

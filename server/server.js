@@ -241,7 +241,7 @@ app.post(("/edit-bio"), (req, res) => {
 
 app.post("/delete-bio", (req, res) => {
     console.log("POST request in /edit-bio route", req.body);
-    const { draftBio = null } = req.body;
+    const draftBio = null;
     db.editBio(req.session.userId, draftBio)
         .then(() => {
             res.json({
@@ -271,11 +271,9 @@ app.post("/delete-profile-pic", s3.delete, (req, res) => {
 
 app.get("/member/:id", (req, res) => {
     const { id } = req.params;
-    console.log("request made", id);
     db.getUserProfile(id)
         .then(({ rows }) => {
             rows[0]["loggedId"] = req.session.userId;
-            console.log(rows[0]);
             res.json(rows[0]);
         })
         .catch((error) => {
