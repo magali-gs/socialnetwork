@@ -197,7 +197,7 @@ app.post("/welcome/reset-password/verify", (req, res) => {
         });
 });
 
-app.get('/profile', (req, res) => {
+app.get('/profile.json', (req, res) => {
     db.getUserProfile(req.session.userId)
         .then(({ rows }) => {
             res.json(rows[0]);
@@ -267,6 +267,21 @@ app.post("/delete-profile-pic", s3.delete, (req, res) => {
             res.json({ error: true });
         });
 
+});
+
+app.get("/member/:id", (req, res) => {
+    const { id } = req.params;
+    console.log("request made", id);
+    db.getUserProfile(id)
+        .then(({ rows }) => {
+            rows[0]["loggedId"] = req.session.userId;
+            console.log(rows[0]);
+            res.json(rows[0]);
+        })
+        .catch((error) => {
+            console.log("getUserProfile error ", error);
+            res.json({ error: true });
+        });
 });
 
 //ALWAYS AT THE END BEFORE THE app.listen
