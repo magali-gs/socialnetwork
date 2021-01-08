@@ -5,6 +5,12 @@ export default class OtherProfile extends Component {
     constructor() {
         super();
         this.state = {
+            id: '',
+            first: '',
+            last: '',
+            email: '',
+            bio: '',
+            image: ''
         };
     }
 
@@ -30,7 +36,9 @@ export default class OtherProfile extends Component {
     render() {
         return (
             <div>
-                <h1>Other profile</h1>
+                <h1>
+                    My name is {this.state.first} {this.state.last}
+                </h1>
                 <h2>I am another profile</h2>
             </div>
         );
