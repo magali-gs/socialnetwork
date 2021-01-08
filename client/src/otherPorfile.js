@@ -36,10 +36,27 @@ export default class OtherProfile extends Component {
     render() {
         return (
             <div>
+                <div className="other-profile">
+                    {!this.state.image && (
+                        <img
+                            className="profile-img"
+                            src="../default-img.png"
+                            alt={`${this.state.first} ${this.state.last}`}
+                        />
+                    )}
+                    {this.state.image && (
+                        <img
+                            className="profile-img"
+                            src={this.state.image}
+                            alt={`${this.state.first} ${this.state.last}`}
+                        />
+                    )}
+                </div>
                 <h1>
                     My name is {this.state.first} {this.state.last}
                 </h1>
                 <h2>I am another profile</h2>
+                <p>Bio: {this.state.bio}</p>
             </div>
         );
     }

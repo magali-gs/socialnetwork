@@ -189,7 +189,7 @@ input[type=file]::-webkit-file-upload-button {
     grid-column: 2;
 }
 
-.profile-container .image-cropper {
+.profile-container .image-cropper,  .other-profile{
     position: relative;
     overflow: hidden;
     grid-row: 1 / 2;
@@ -199,3 +199,4 @@ input[type=file]::-webkit-file-upload-button {
     height: 250px;
     cursor: pointer;
 }
+
