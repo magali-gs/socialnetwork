@@ -4,15 +4,17 @@ import ProfilePic from "./profilepic";
 
 export default function Profile(props) {
     return (
-        <div className="profile-container">
+        <div className="profile">
             <ProfilePic
                 toggleUploader={props.toggleUploader}
                 image={props.image}
             />
-            <h3>
-                {props.first} {props.last}
-            </h3>
-            <BioEditor setBio={props.setBio} bio={props.bio} />
+            <div className="bio-cropper">
+                <h1>
+                    {props.first} {props.last}
+                </h1>
+                <BioEditor setBio={props.setBio} bio={props.bio} />
+            </div>
         </div>
     );
 }

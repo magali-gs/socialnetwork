@@ -60,17 +60,18 @@ export default class App extends Component {
 
         return (
             <BrowserRouter>
-                <div>
+                <>
                     {/* <Logo /> */}
-                    <h1>App</h1>
-                    <ProfilePic
-                        id={this.state.id}
-                        first={this.state.first}
-                        last={this.state.last}
-                        image={this.state.image}
-                        toggleUploader={() => this.toggleUploader()}
-                    />
-
+                    <header className='main-header'>
+                        <h1>Logo</h1>
+                        <ProfilePic
+                            id={this.state.id}
+                            first={this.state.first}
+                            last={this.state.last}
+                            image={this.state.image}
+                            toggleUploader={() => this.toggleUploader()}
+                        />
+                    </header>
                     <Route
                         exact
                         path="/"
@@ -105,7 +106,7 @@ export default class App extends Component {
                             toggleUploader={() => this.toggleUploader()}
                         />
                     )}
-                </div>
+                </>
             </BrowserRouter>
         );
     }
