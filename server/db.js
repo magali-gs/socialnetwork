@@ -102,7 +102,7 @@ module.exports.editBio = (userId, bio) => {
 };
 
 /////////////////////////QUERY find people///////////////////////////
-module.exports.findpeople = () => {
+module.exports.getUsers = () => {
     const q = `
         SELECT id, first_name, last_name, email, bio, profile_pic 
         FROM users
@@ -110,4 +110,15 @@ module.exports.findpeople = () => {
         LIMIT 3;
         `;
     return db.query(q);
+};
+
+module.exports.getMatchingPeople = (val) => {
+    const q = `
+        SELECT id, first_name, last_name, email, bio, profile_pic 
+        FROM users
+        WHERE first_name ILIKE $1 OR last_name ILIKE $1
+        LIMIT 4;
+        `;
+    const params = [val + '%'];        
+    return db.query(q, params);
 };

@@ -282,17 +282,30 @@ app.get("/member/:id", (req, res) => {
             }
         })
         .catch((error) => {
-            console.log("getUserProfile error ", error);
+            console.log("/member/:id error ", error);
             res.json({ error: true });
         });
 });
 
-app.get("/users.json", (req, res) => {
-    console.log('Get request');
-    db.findpeople().then(({ rows }) => {
-        console.log(rows);
-        res.json(rows);
-    });
+app.get("/latest-users", (req, res) => {
+    db.getUsers()
+        .then(({ rows }) => {
+            res.json(rows);
+        }).catch((error) => {
+            console.log("/latest-users error ", error);
+            res.json({ error: true });
+        });
+});
+
+app.get("/find-users/:query", (req, res) => {
+    db.getMatchingPeople(req.params.query)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((error) => {
+            console.log("/find-users/ error ", error);
+            res.json({ error: true });
+        });
 });
 
 //ALWAYS AT THE END BEFORE THE app.listen
