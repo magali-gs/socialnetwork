@@ -2,7 +2,7 @@ import React from "react";
 
 export default function ProfilePic({ first, last, image, toggleUploader }) {
     return (
-        <div className='image-cropper'>
+        <>
             {!image && (
                 <img
                     onClick={() => toggleUploader()}
@@ -19,6 +19,6 @@ export default function ProfilePic({ first, last, image, toggleUploader }) {
                     alt={`${first} ${last}`}
                 />
             )}
-        </div>
+        </>
     );
 }

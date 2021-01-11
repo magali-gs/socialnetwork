@@ -104,7 +104,7 @@ module.exports.editBio = (userId, bio) => {
 /////////////////////////QUERY find people///////////////////////////
 module.exports.getUsers = () => {
     const q = `
-        SELECT id, first_name, last_name, email, bio, profile_pic 
+        SELECT id, first_name, last_name, bio, profile_pic 
         FROM users
         ORDER BY id DESC
         LIMIT 3;
@@ -114,7 +114,7 @@ module.exports.getUsers = () => {
 
 module.exports.getMatchingPeople = (val) => {
     const q = `
-        SELECT id, first_name, last_name, email, bio, profile_pic 
+        SELECT id, first_name, last_name, bio, profile_pic 
         FROM users
         WHERE first_name ILIKE $1 OR last_name ILIKE $1
         LIMIT 4;

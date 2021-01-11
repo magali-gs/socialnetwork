@@ -41,19 +41,24 @@ p {
   border-bottom: 7px solid #1a1a1a;
 }
 
-.main-header .image-cropper{
+/* .main-header .image-cropper{
   overflow: hidden;
   border-radius: 50% ;
   width: 70px;
   height: 70px;
   cursor: pointer;
   border: 4px solid black;
-}
+} */
 
 .main-header .profile-img {
-  height: auto;
-  width: 100%;
+  border-radius: 50% ;
+  height: 70px;
+  width: 70px;
+  cursor: pointer;
+  border: 4px solid black;
   object-fit: cover;
+  object-position: center right;
+  vertical-align: middle;
 }
 
 .logo {
@@ -90,22 +95,51 @@ p {
   grid-gap: 5vw;
 }
 
- .profile .image-cropper {
+ /* .profile .image-cropper {
   overflow: hidden;
   width: 100%;
-  max-height: 200px;
+  height: 200px;
   cursor: pointer;
   border: 6px solid black;
-}
+} */
 
-.profile .profile-img {
-  height: 100%; 
-  width: 100%;
+.profile .profile-img, .findPeople .profile-img {
+  border: 6px solid black;
+  height: 200px; 
+  width: 200px;
   object-fit: cover;
+  object-position: center right;
+  /* outline: 2px solid white;
+  outline-offset: -7px; */
 }
 
 .profile .other {
   cursor: default;
+}
+
+/*  */
+
+.findPeople {
+  padding: 1vh 1vw;
+}
+.searchedUsers {
+  display: flex;
+  flex-direction: row;
+  padding: 1vh 1vw;
+  align-items: center;
+}
+
+.searchInput {
+  border: 6px solid black;
+}
+
+.users p {
+  padding-left: 2vw;
+}
+
+.findedPeople {
+  display: flex;
+  flex-direction: row;
 }
 
 /* FORM ELEMENTS */
@@ -358,8 +392,37 @@ a {
     linear-gradient(180deg, rgba(230, 32, 32, 0) 50%, rgb(184, 242, 230) 50%);
 }
 
+/* Arrow */
+.scrollTop {
+  position: fixed; 
+  width: 100%;
+  bottom: 20px;
+  align-items: center;
+  height: 20px;
+  justify-content: center;
+  z-index: 1000;
+  cursor: pointer;
+  animation: fadeIn 0.3s;
+  transition: opacity 0.4s;
+  opacity: 0.5;
+}
+
+.scrollTop:hover{
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+
 /* Responsive */
-@media screen and (min-width: 700px) {
+@media screen and (max-width: 700px) {
   .profile {
     display: flex;
     flex-direction: column;

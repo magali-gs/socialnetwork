@@ -1,12 +1,15 @@
 import {  useState, useEffect } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
+import { FaArrowCircleUp } from "react-icons/fa";
+
 
 
 export default function FindPeople() {
     console.log('Rendenring <Find Friends');
     const [query, setQuery] = useState('');
     const [users, setUsers] = useState([]);
+    const [showScroll, setShowScroll] = useState(false);
 
     useEffect(() => {
         console.log(`Console log happening in useEffect`);
@@ -34,29 +37,49 @@ export default function FindPeople() {
         };
     }, [query]);
 
+    const checkScrollTop = () => {
+        if (!showScroll && window.pageYOffset > 100) {
+            setShowScroll(true);
+        } else if (showScroll && window.pageYOffset <= 100) {
+            setShowScroll(false);
+        }
+    };
+  
+    const scrollTop = () => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    };
+    
+    window.addEventListener('scroll', checkScrollTop);
+        
     return (
-        <div>
+        <div className="findPeople">
             <h2>Find People</h2>
             <p>Checkout who just joined!</p>
             <p>Are you looking for someone in particular?</p>
             <input
-                defaultValue="teste"
+                defaultValue=""
+                className="searchInput"
                 onChange={(e) => setQuery(e.target.value)}
             />
             <div>
                 {users.map((users, idx) => (
-                    <div key={idx}>
-                        <Link to={"/user/" + users.id}>
+                    <div key={idx} className="users">
+                        <Link
+                            to={"/user/" + users.id}
+                            className="searchedUsers"
+                        >
                             {!users.profile_pic && (
                                 <img
                                     src="../default-img.png"
                                     alt={`${users.first_name} ${users.last_name}`}
+                                    className="profile-img"
                                 ></img>
                             )}
                             {users.profile_pic && (
                                 <img
                                     src={users.profile_pic}
                                     alt={`${users.first_name} ${users.last_name}`}
+                                    className="profile-img"
                                 ></img>
                             )}
                             <p>
@@ -65,9 +88,13 @@ export default function FindPeople() {
                         </Link>
                     </div>
                 ))}
-                {!users.length && query && <li>Nothing found</li>}
+                {!users.length && query && <p>Nothing found</p>}
             </div>
+            <FaArrowCircleUp
+                className="scrollTop"
+                onClick={scrollTop}
+                style={{ height: 40, display: showScroll ? "flex" : "none" }}
+            />
         </div>
     );
-
 }

@@ -7,6 +7,8 @@ import OtherProfile from "./otherPorfile";
 import Logo from "./logo";
 import FindPeople from "./findPeople";
 import { BrowserRouter, Route } from 'react-router-dom';
+import { Link } from "react-router-dom";
+
 
 export default class App extends Component {
     constructor() {
@@ -69,7 +71,10 @@ export default class App extends Component {
             <BrowserRouter>
                 <>
                     <header className="main-header">
-                        <Logo />
+                        <Link to="/">
+                            <Logo />
+                        </Link>
+                        <Link to="/users">Find People</Link>
                         <ProfilePic
                             id={this.state.id}
                             first={this.state.first}
