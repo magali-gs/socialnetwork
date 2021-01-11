@@ -4,6 +4,8 @@ import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import Profile from './profile';
 import OtherProfile from "./otherPorfile";
+import Logo from "./logo";
+import FindPeople from "./findPeople";
 import { BrowserRouter, Route } from 'react-router-dom';
 
 export default class App extends Component {
@@ -21,7 +23,8 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        axios.get("/profile.json")
+        axios
+            .get("/profile.json")
             .then(({ data }) => {
                 this.setState({
                     id: data.id,
@@ -31,6 +34,10 @@ export default class App extends Component {
                     bio: data.bio,
                     image: data.profile_pic,
                 });
+            })
+            .catch((error) => {
+                console.log("error", error);
+                this.props.history.push("/");
             });
     }
 
@@ -61,9 +68,8 @@ export default class App extends Component {
         return (
             <BrowserRouter>
                 <>
-                    {/* <Logo /> */}
-                    <header className='main-header'>
-                        <h1>Logo</h1>
+                    <header className="main-header">
+                        <Logo />
                         <ProfilePic
                             id={this.state.id}
                             first={this.state.first}
@@ -99,6 +105,17 @@ export default class App extends Component {
                         )}
                     />
 
+                    <Route
+                        path="/users"
+                        render={(props) => (
+                            <FindPeople
+                                match={props.match}
+                                key={props.match.url}
+                                history={props.history}
+                            />
+                        )}
+                    />
+
                     {this.state.uploaderIsVisible && (
                         <Uploader
                             image={this.state.image}
@@ -111,3 +128,4 @@ export default class App extends Component {
         );
     }
 }
+

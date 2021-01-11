@@ -273,13 +273,26 @@ app.get("/member/:id", (req, res) => {
     const { id } = req.params;
     db.getUserProfile(id)
         .then(({ rows }) => {
-            rows[0]["loggedId"] = req.session.userId;
-            res.json(rows[0]);
+            if (rows.length > 0) {
+                rows[0]["loggedId"] = req.session.userId;
+                rows[0].success = true;
+                res.json(rows[0]);
+            } else {
+                res.status(404);
+            }
         })
         .catch((error) => {
             console.log("getUserProfile error ", error);
             res.json({ error: true });
         });
+});
+
+app.get("/users.json", (req, res) => {
+    console.log('Get request');
+    db.findpeople().then(({ rows }) => {
+        console.log(rows);
+        res.json(rows);
+    });
 });
 
 //ALWAYS AT THE END BEFORE THE app.listen

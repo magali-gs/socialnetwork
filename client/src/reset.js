@@ -101,7 +101,10 @@ export default class ResetPassword extends Component {
                 <div className="formField">
                     <header>
                         <h2>Reset Password</h2>
-                        <p>Please enter the code that was recently sent to you and your new password</p>
+                        <p>
+                            Please enter the code that was recently sent to you
+                            and your new password
+                        </p>
                         {this.state.error && (
                             <p className="errorMessage">
                                 Something went wrong. Please try again
@@ -127,6 +130,16 @@ export default class ResetPassword extends Component {
                             Reset Password
                         </button>
                     </div>
+                    <Link to="/login">
+                        <div
+                            className="outer"
+                            onClick={() => this.props.toggleUploader()}
+                        >
+                            <div className="inner">
+                                <label>Cancel</label>
+                            </div>
+                        </div>
+                    </Link>
                 </div>
             );
         } else {
@@ -134,7 +147,10 @@ export default class ResetPassword extends Component {
                 <div className="formField">
                     <header>
                         <h2>Reset Password</h2>
-                        <p>Please your e-mail and we will send to your the reset code</p>
+                        <p>
+                            Please your e-mail and we will send to your the
+                            reset code
+                        </p>
                         {this.state.error && (
                             <p className="errorMessage">
                                 Something went wrong. Please try again
@@ -142,7 +158,6 @@ export default class ResetPassword extends Component {
                         )}
                     </header>
                     <div className="form">
-
                         <input
                             onChange={(e) => this.handleChange(e)}
                             name="email"
@@ -150,10 +165,21 @@ export default class ResetPassword extends Component {
                             type="text"
                             required
                         />
-                        <button onClick={(e) => this.sendCode(e)}>
+                        <button 
+                            onClick={(e) => this.sendCode(e)}>
                             Send Reset Code
                         </button>
                     </div>
+                    <Link to='/login'>
+                        <div
+                            className="outer"
+                            onClick={() => this.props.toggleUploader()}
+                        >
+                            <div className="inner">
+                                <label>Back</label>
+                            </div>
+                        </div>
+                    </Link>
                 </div>
             );
         }

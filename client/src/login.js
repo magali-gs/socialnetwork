@@ -66,14 +66,14 @@ export default class Login extends Component {
                         required
                     />
 
-                    <button onClick={(e) => this.handleClick(e)}>Submit</button>
+                    <button onClick={(e) => this.handleClick(e)}>Enter</button>
                 </div>
                 <Link to="/">
                     <button className="sig-up submits">Sign Up</button>
                 </Link>
                 <Link to="/reset-password">
                     <button className="frgt-pass submits">
-                        Forgot Password
+                        Forgot Password?
                     </button>
                 </Link>
             </div>

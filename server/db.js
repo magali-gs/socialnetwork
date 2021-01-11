@@ -100,3 +100,14 @@ module.exports.editBio = (userId, bio) => {
     const params = [userId, bio];
     return db.query(q, params);
 };
+
+/////////////////////////QUERY find people///////////////////////////
+module.exports.findpeople = () => {
+    const q = `
+        SELECT id, first_name, last_name, email, bio, profile_pic 
+        FROM users
+        ORDER BY id DESC
+        LIMIT 3;
+        `;
+    return db.query(q);
+};

@@ -7,7 +7,6 @@ import ResetPassword from "./reset.js";
 export default function Welcome() {
     return (
         <div>
-            <h1>Welcome</h1>
             <HashRouter>
                 <div>
                     <Route exact path="/" component={Registration} />

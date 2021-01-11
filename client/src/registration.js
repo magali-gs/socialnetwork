@@ -27,7 +27,7 @@ export default class Registration extends Component {
 
     handleClick(e) {
         console.log("handleClick ", this.state);
-        // e.preventDefault();
+        e.preventDefault();
         axios
             .post("/registration", this.state)
             .then(( { data }) => {
@@ -97,7 +97,10 @@ export default class Registration extends Component {
                         type="password"
                         required
                     />
-                    <button onClick={(e) => this.handleClick(e)}>
+                    <button
+                        className="sig-up"
+                        onClick={(e) => this.handleClick(e)}
+                    >
                         Sign Up
                     </button>
                     <p>If you are already a member</p>

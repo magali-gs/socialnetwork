@@ -15,22 +15,26 @@ export default class OtherProfile extends Component {
     }
 
     componentDidMount() {
-        axios.get("/member/" + this.props.match.params.id).then(({ data }) => {
-            console.log("res", data);
-            if (this.props.match.params.id == data.loggedId) {
+        axios.get("/member/" + this.props.match.params.id)
+            .then(({ data }) => {
+                console.log("res", data);
+                if (this.props.match.params.id == data.loggedId) {
+                    this.props.history.push("/");
+                } else {
+                    this.setState({
+                        id: data.id,
+                        first: data.first_name,
+                        last: data.last_name,
+                        email: data.email,
+                        bio: data.bio,
+                        image: data.profile_pic,
+                    });
+                }
+            }).catch((error) => {
+                console.log('error', error);
+                //redirecionar para pagina de error customizada
                 this.props.history.push("/");
-            } else {
-                this.setState({
-                    id: data.id,
-                    first: data.first_name,
-                    last: data.last_name,
-                    email: data.email,
-                    bio: data.bio,
-                    image: data.profile_pic,
-                });
-            }
-        });
-  
+            });
     }
 
     render() {
