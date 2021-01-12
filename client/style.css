@@ -11,7 +11,7 @@ main {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  border: 7px solid black;
+  border: 7px solid #2A293E;
 }
 
 p {
@@ -38,7 +38,7 @@ p {
   padding: 1.5vh 1.5vw;
   height: 10vh;
   background-color: #fff;
-  border-bottom: 7px solid #1a1a1a;
+  border-bottom: 7px solid #2A293E;
 }
 
 /* .main-header .image-cropper{
@@ -55,7 +55,7 @@ p {
   height: 70px;
   width: 70px;
   cursor: pointer;
-  border: 4px solid black;
+  border: 4px solid #2A293E;
   object-fit: cover;
   object-position: center right;
   vertical-align: middle;
@@ -104,7 +104,7 @@ p {
 } */
 
 .profile .profile-img, .findPeople .profile-img {
-  border: 6px solid black;
+  border: 6px solid #2A293E;
   height: 200px; 
   width: 200px;
   object-fit: cover;
@@ -129,8 +129,13 @@ p {
   align-items: center;
 }
 
-.searchInput {
-  border: 6px solid black;
+.searchInput:focus {
+  width: 300px;
+  transform: none;
+}
+.searchInput:hover {
+  border-bottom: 6px solid #2A293E;
+  transform: none;
 }
 
 .users p {
@@ -144,24 +149,33 @@ p {
 
 /* FORM ELEMENTS */
 .formField {
-    margin: 2% auto;
-    padding: 2%;
-    width: 450px;
-    height: auto;
-    min-height: 500px;
-    border: 6px solid black;
-    background-image: linear-gradient(-232deg, #E3FDF5 50%, #FFE6FA 50%);
-    box-shadow: 0 9px 50px hsla(20, 67%, 75%, 0.31);
+  margin: 2% auto;
+  padding: 2%;
+  width: 450px;
+  height: auto;
+  min-height: 500px;
+  border: 6px solid #2A293E;
+  background-image: linear-gradient(-232deg, #E3FDF5 50%, #FFE6FA 50%);
+  box-shadow: 0 9px 50px hsla(20, 67%, 75%, 0.31);
 }
 
 .formField .form {
-    margin: 0 auto;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-justify-content: space-around;
-    justify-content: space-around;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
+  margin: 0 auto;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.input-item {
+  background: #fff;
+  color: #333;
+  padding: 35px 0px 15px 9px;
+  border-radius: 5px 0px 0px 5px;
+  width: 25px;
+  height: 25px;
 }
 
 header {
@@ -178,20 +192,32 @@ header h2 {
 header p {
   letter-spacing: 0.05em;
 }
+.con {
+  display: -webkit-flex;
+  display: flex;
+  
+    /* -webkit-justify-content: space-around;
+    justify-content: space-around; */
+  
+    -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  
+  margin: 0 auto;
+}
 
 input {
-    display: block;
-    margin-top: 2%;
-    padding: 0 15px;
-    width: 240px;
-    height: 50px;
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    color: #5E6472;
-    font-size: calc(0.6rem + 1vmin);
-    font-family: "Comfortaa";
-    transition: 0.2s linear;
+  display: block;
+  margin-top: 2%;
+  padding: 0 15px;
+  width: 240px;
+  height: 50px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  color: #5E6472;
+  font-size: calc(0.6rem + 1vmin);
+  font-family: "Comfortaa";
+  transition: 0.2s linear;
 }
 
 textarea {
@@ -405,6 +431,7 @@ a {
   animation: fadeIn 0.3s;
   transition: opacity 0.4s;
   opacity: 0.5;
+  color: rgb(255, 148, 169);
 }
 
 .scrollTop:hover{

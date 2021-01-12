@@ -122,3 +122,15 @@ module.exports.getMatchingPeople = (val) => {
     const params = [val + '%'];        
     return db.query(q, params);
 };
+
+/////////////////////////QUERY for friendship ///////////////////////////
+module.exports.getFriendshipsStatus = (userId, otherUserId) => {
+    const q = `
+        SELECT * 
+        FROM friendships
+        WHERE (recipient_id = $1 AND sender_id = $2) 
+            OR (recipient_id = $2 AND sender_id = $1);
+        `;
+    const params = [userId, otherUserId];
+    return db.query(q, params);
+};

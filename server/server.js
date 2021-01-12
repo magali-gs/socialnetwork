@@ -308,6 +308,23 @@ app.get("/find-users/:query", (req, res) => {
         });
 });
 
+app.get("/friendship-status/:otherUserId", (req, res) => {
+    console.log("request made to GET/friendship", req.params);
+    const { otherUserId } = req.params;
+    db.getFriendshipsStatus(req.session.userId, otherUserId)
+        .then(({ rows }) => {
+            console.log('rows', rows);
+            res.json(rows);
+        }).catch((error) => {
+            console.log("/friendship-status/:otherUserId ", error);
+            res.json({ error: true });
+        });
+});
+
+// app.post("/friendship", (req, res) => {
+//     console.log("request made to /friendship", req.params);
+// });
+
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {
     if (!req.session.userId) {

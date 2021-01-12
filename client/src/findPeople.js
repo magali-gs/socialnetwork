@@ -1,14 +1,13 @@
 import {  useState, useEffect } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
-import { FaArrowCircleUp } from "react-icons/fa";
-
+import { FaArrowCircleUp, FaSearch } from "react-icons/fa";
 
 
 export default function FindPeople() {
-    console.log('Rendenring <Find Friends');
     const [query, setQuery] = useState('');
     const [users, setUsers] = useState([]);
+    const [error, setError] = useState(false);
     const [showScroll, setShowScroll] = useState(false);
 
     useEffect(() => {
@@ -55,12 +54,18 @@ export default function FindPeople() {
         <div className="findPeople">
             <h2>Find People</h2>
             <p>Checkout who just joined!</p>
-            <p>Are you looking for someone in particular?</p>
-            <input
-                defaultValue=""
-                className="searchInput"
-                onChange={(e) => setQuery(e.target.value)}
-            />
+            <p>Are you looking for someone in particular? </p>
+            <div className="con">
+                <span>
+                    <FaSearch className="input-item"></FaSearch>
+                </span>
+
+                <input
+                    defaultValue=""
+                    className="searchInput"
+                    onChange={(e) => setQuery(e.target.value)}
+                />
+            </div>
             <div>
                 {users.map((users, idx) => (
                     <div key={idx} className="users">
