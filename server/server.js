@@ -321,9 +321,44 @@ app.get("/friendship-status/:otherUserId", (req, res) => {
         });
 });
 
-// app.post("/friendship", (req, res) => {
-//     console.log("request made to /friendship", req.params);
-// });
+app.post("/friendship-action", (req, res) => {
+    console.log("request made to POST/friendship-action", req.body);
+    const { action, otherUserId } = req.body;
+    if (action === "Make friend request") {
+        console.log("request made to POST/friendship-action", action);
+        db.makeRequest(req.session.userId, otherUserId)
+            .then(({ rows }) => {
+                console.log("rows", rows);
+                res.json(rows);
+            })
+            .catch((error) => {
+                console.log("error in makeRequest", error);
+                res.json({ error: true });
+            });
+    } else if (action === "Cancel friend request" || action === "Unfriend") {
+        console.log("request made to POST/friendship-action", action);
+        db.cancelRequest(req.session.userId, otherUserId)
+            .then(({ rows }) => {
+                console.log("rows", rows);
+                res.json(rows);
+            })
+            .catch((error) => {
+                console.log("error in cancelRequest", error);
+                res.json({ error: true });
+            });
+    } else if (action === "Accept friend request") {
+        console.log("request made to POST/friendship-action", req.body);
+        db.acceptRequest(req.session.userId, otherUserId)
+            .then(({ rows }) => {
+                console.log("rows", rows);
+                res.json(rows);
+            })
+            .catch((error) => {
+                console.log("error in acceptRequest", error);
+                res.json({ error: true });
+            });
+    }
+});
 
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {
