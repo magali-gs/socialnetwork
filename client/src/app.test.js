@@ -4,7 +4,7 @@ import { render, waitForElement } from "@testing-library/react";
 import axios from "./axios";
 
 //this creates my fake axios 
-jest.mock('./axios');
+jest.mock("./axios");
 
 //this creates a fake response from axios
 //mockResolvedValue comes from jest
@@ -17,17 +17,16 @@ axios.get.mockResolvedValue({
     }
 });
 
-test('App eventually renders the div', async () => {
+test("app eventually renders the div", async () => {
     const { container } = render(<App />);
 
-    console.log('container.innerHTML', container.innerHTML);
-    
-    //tell test to sit and wait for the div to appear in DOM
-    await waitForElement(() => {
-        container.querySelector("div");
-    });
+    // tell test to sit and wait for div to appear in DOM
+    await waitForElement(() => container.querySelector("div"));
 
-    console.log("container.innerHTML", container.innerHTML);
+    console.log("container.innerHTML 2: ", container.innerHTML);
 
-    expect(container.querySelector('div').children.length).toBe(1);
+    // check that something has been rendered in DOM
+    // here I'm checking for the children of div
+    // but there are a million different ways to do this check :)
+    expect(container.querySelector("div").children.length).toBe(2);
 });

@@ -35,7 +35,6 @@ function friendshipStatusButtonTxt(friendshipStatus, userId) {
         return "Make friend request";
     } else {
         const { recipient_id, accepted } = friendshipStatus[0];
-        console.log("recipientId", recipient_id);
         if (accepted) {
             return "Unfriend";
         } else if (!accepted && recipient_id == userId) {

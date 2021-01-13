@@ -79,7 +79,10 @@ export default class BioEditor extends Component {
                             />
                         )}
                         {!this.props.bio && !this.state.textareaVisible && (
-                            <p onClick={() => this.toggleTextarea()}>
+                            <p
+                                className="add-bio"
+                                onClick={() => this.toggleTextarea()}
+                            >
                                 <span className="highlight">
                                     Add your bio now
                                 </span>
@@ -100,7 +103,10 @@ export default class BioEditor extends Component {
                         )}
 
                         {this.props.bio && !this.state.textareaVisible && (
-                            <button onClick={(e) => this.deleteBio(e)}>
+                            <button
+                                className="delete"
+                                onClick={(e) => this.deleteBio(e)}
+                            >
                                 Delete Bio
                             </button>
                         )}
