@@ -76,6 +76,7 @@ export default class App extends Component {
                             <Logo />
                         </Link>
                         <Link to="/users">Find People</Link>
+                        <Link to="/friends">Friends</Link>
                         <ProfilePic
                             id={this.state.id}
                             first={this.state.first}

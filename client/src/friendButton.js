@@ -30,17 +30,24 @@ export default function FriendButton({ otherUserId, userId }) {
     );
 }
 
+
 function friendshipStatusButtonTxt(friendshipStatus, userId) {
+    const BUTTON_TEXT = {
+        MAKE_REQUEST: "Make friend request",
+        CANCEL_REQUEST: "Cancel friend request",
+        ACCEPT_REQUEST: "Accept friend request",
+        UNFRIEND: "Unfriend",
+    };
     if (friendshipStatus.length === 0) {
-        return "Make friend request";
+        return BUTTON_TEXT.MAKE_REQUEST;
     } else {
         const { recipient_id, accepted } = friendshipStatus[0];
         if (accepted) {
-            return "Unfriend";
+            return BUTTON_TEXT.UNFRIEND;
         } else if (!accepted && recipient_id == userId) {
-            return "Accept friend request";
+            return BUTTON_TEXT.ACCEPT_REQUEST;
         } else if (!accepted && recipient_id !== userId) {
-            return "Cancel friend request";
+            return BUTTON_TEXT.CANCEL_REQUEST;
         }
     }
 }
