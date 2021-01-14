@@ -166,3 +166,17 @@ module.exports.acceptRequest = (userId, otherUserId) => {
     const params = [userId, otherUserId];
     return db.query(q, params);
 };
+
+/////////////////////////QUERY for friends ///////////////////////////
+module.exports.getFriendsWannabes = (userId) => {
+    const q = `
+        SELECT users.id, first_name, last_name, profile_pic, accepted
+        FROM friendships
+        JOIN users
+        ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id);
+        `;
+    const params = [userId];
+    return db.query(q, params);
+};

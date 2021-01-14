@@ -316,7 +316,7 @@ app.get("/friendship-status/:otherUserId", (req, res) => {
             console.log('rows', rows);
             res.json(rows);
         }).catch((error) => {
-            console.log("/friendship-status/:otherUserId ", error);
+            console.log("/getFriendshipsStatus ", error);
             res.json({ error: true });
         });
 });
@@ -358,6 +358,18 @@ app.post("/friendship-action", (req, res) => {
                 res.json({ error: true });
             });
     }
+});
+
+app.get("/friends-wannabes", (req, res) => {
+    console.log("request made to GET/friends-wannabes", req.params);
+    db.getFriendsWannabes(req.session.userId)
+        .then(({rows}) => {
+            console.log("rows in friends-wannabes", rows);
+            res.json(rows);
+        }).catch((error) => {
+            console.log("/getFriendsWannabes ", error);
+            res.json({ error: true });
+        });
 });
 
 //ALWAYS AT THE END BEFORE THE app.listen

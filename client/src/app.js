@@ -6,6 +6,7 @@ import Profile from './profile';
 import OtherProfile from "./otherPorfile";
 import Logo from "./logo";
 import FindPeople from "./findPeople";
+import Friends from './friends';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
@@ -114,6 +115,17 @@ export default class App extends Component {
                         path="/users"
                         render={(props) => (
                             <FindPeople
+                                match={props.match}
+                                key={props.match.url}
+                                history={props.history}
+                            />
+                        )}
+                    />
+
+                    <Route
+                        path="/friends"
+                        render={(props) => (
+                            <Friends
                                 match={props.match}
                                 key={props.match.url}
                                 history={props.history}
