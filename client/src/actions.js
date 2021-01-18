@@ -48,3 +48,11 @@ export async function addRecentMessages(data) {
         messagesList: data,
     };
 }
+
+export async function postMessage(newMessage) {
+    console.log("new message", newMessage);
+    return {
+        type: "POST_MESSAGES",
+        message: newMessage,
+    };
+}

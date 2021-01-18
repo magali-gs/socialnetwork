@@ -402,34 +402,40 @@ io.on('connection', (socket) => {
     */
 
     //when the user post a new message...
-    // socket.on("my new chat message", (data) => {
-    //     //this will run whatever the user posts a new chat message!
-    //     console.log("my new chat message", data);
-    //     //1. INSERT new message into a our new 'chat_messages' table
-    //     //2. emit a message back to the client
-    //     //what we have to emit back to the client is: message, profile_pic, name, id, timestamp(opt)
-    //     //this wil send a message to EVERYONE (who is logged-in), not just one person
-    //     //get data from users table, maybe making a join
-    //     // io.socket.emit('new message and user', {
-    //     //     // message,
-    //     //     // id,
-    //     //     // profile_pic,
-    //     //     // name,
-    //     //     // timestamp
-    //     // });
-    // });
+    socket.on("New message", (data) => {
+        console.log('new message'. data);
+        //this will run whatever the user posts a new chat message!
+        //1. INSERT new message into a our new 'chat_messages' table
+        db.newMessage(socket.request.session.userId, data)
+            .then(({ rows }) => {
+                console.log("rows,", rows);
+                // 2. emit a message back to the client
+                db.getUserProfile(socket.request.session.userId).then(
+                    ({ rows: info }) => {
+                        io.sockets.emit("New message and user", {
+                            message: rows[0].message,
+                            createAt: rows[0]["create_at"],
+                            id: rows[0].id,
+                            profile_pic: info[0]["profile_pic"],
+                            first_name: info[0]["first_name"],
+                            last_name: info[0]["last_name"],
+                        });
+                    }
+                );
+            })
+            .catch((error) => {
+                console.log("error in newMessage", error);
+            });
+    });
 
     //code for redenring the messages
-    // specifically... what we want to do is
-
     db.getMostRecentMessages()
         .then(({rows}) => {
             socket.emit("Most recent messages", rows);
-            console.log("Most recent messages", rows);
         }).catch((error) => {
             console.log("error in getMostRecentMessages", error);
         });
-    // socket.on("disconnect", () => {
-    //     console.log(`Socket with id: ${socket.id} just disconnected`);
-    // });
+    socket.on("disconnect", () => {
+        console.log(`Socket with id: ${socket.id} just disconnected`);
+    });
 });// closes io.on('connection')

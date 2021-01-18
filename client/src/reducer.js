@@ -37,5 +37,13 @@ export default function reducer(state = {}, action ) {
         };
     }
 
+    if (action.type == "POST_MESSAGES") {
+        console.log(action.message);
+        state = {
+            ...state,
+            chatMessages: [...state.chatMessages, action.message],
+        };
+    }
+
     return state;
 }
