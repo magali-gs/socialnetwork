@@ -10,7 +10,7 @@ export default function Profile(props) {
             />
             <div className="bio-cropper">
                 <h1>
-                    {props.first} {props.last}
+                    {props.full_name}
                 </h1>
                 <BioEditor setBio={props.setBio} bio={props.bio} />
             </div>

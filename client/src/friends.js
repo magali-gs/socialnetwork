@@ -36,20 +36,15 @@ export default function Friends() {
                     <div className="sub-container">
                         {friends.map((friend) => (
                             <div className="card" key={friend.id}>
-                                {friend["profile_pic"] && (
-                                    <img
-                                        src={friend["profile_pic"]}
-                                        alt={`${friend["first_name"]} ${friend["last_name"]}`}
-                                    />
-                                )}
-                                {!friend["profile_pic"] && (
-                                    <img
-                                        src="../default-img.png"
-                                        alt={`${friend["first_name"]} ${friend["last_name"]}`}
-                                    />
-                                )}
+                                <img
+                                    src={
+                                        friend["profile_pic"] ||
+                                            "../default-img.png"
+                                    }
+                                    alt={`${friend["full_name"]}}`}
+                                />
                                 <h2>
-                                    {`${friend["first_name"]} ${friend["last_name"]}`}
+                                    {`${friend["full_name"]}`}
                                 </h2>
                                 <button
                                     className="friendship"
@@ -70,18 +65,13 @@ export default function Friends() {
                     <div className="sub-container">
                         {wannabes.map((wannabe) => (
                             <div className="card" key={wannabe.id}>
-                                {wannabe["profile_pic"] && (
-                                    <img
-                                        src={wannabe["profile_pic"]}
-                                        alt={`${wannabe["first_name"]} ${wannabe["last_name"]}`}
-                                    />
-                                )}
-                                {!wannabe["profile_pic"] && (
-                                    <img
-                                        src="../default-img.png"
-                                        alt={`${wannabe["first_name"]} ${wannabe["last_name"]}`}
-                                    />
-                                )}
+                                <img
+                                    src={
+                                        wannabe["profile_pic"] ||
+                                        "../default-img.png"
+                                    }
+                                    alt={`${wannabe["first_name"]} ${wannabe["last_name"]}`}
+                                />
                                 <h2>
                                     {`${wannabe["first_name"]} ${wannabe["last_name"]}`}
                                 </h2>

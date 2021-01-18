@@ -19,11 +19,12 @@ export default class App extends Component {
         super();
         this.state = {
             id: "",
-            first: "",
-            last: "",
+            first: '',
+            last: '',
+            full_name: "",
             email: "",
             bio: "",
-            image: "",//definir a default image aqui!!
+            image: "", //definir a default image aqui!!
             uploaderIsVisible: false,
         };
     }
@@ -36,6 +37,7 @@ export default class App extends Component {
                     id: data.id,
                     first: data.first_name,
                     last: data.last_name,
+                    full_name: data.full_name,
                     email: data.email,
                     bio: data.bio,
                     image: data.profile_pic,
@@ -91,7 +93,9 @@ export default class App extends Component {
                                     </Link>
                                 </li>
                                 <li>
-                                    <FaComments className="icon"></FaComments>
+                                    <Link to="/chat">
+                                        <FaComments className="icon"></FaComments>
+                                    </Link>
                                 </li>
                                 <li>
                                     <ProfilePic
@@ -113,6 +117,7 @@ export default class App extends Component {
                         render={() => (
                             <Profile
                                 id={this.state.id}
+                                full_name={this.state.full_name}
                                 first={this.state.first}
                                 last={this.state.last}
                                 image={this.state.image}

@@ -391,34 +391,25 @@ server.listen(process.env.PORT || 3001, function () {
 io.on('connection', (socket) => {
     console.log(`Socket with id ${socket.id} just connected!`);
     console.log('socket.request.session: ', socket.request.session);
-    /*
-    every user willl have two IDs:
-      - socket.id - that's the ID socket.io will assign to every user 
-      (socket.id)
-      - userId - that's the ID we assign to users when they login/register
-      (socket.request.session.userId)
-    
-    req.session DOES NOT WORK HERE because we don't have a request object
-    */
 
     //when the user post a new message...
     socket.on("New message", (data) => {
-        console.log('new message'. data);
         //this will run whatever the user posts a new chat message!
         //1. INSERT new message into a our new 'chat_messages' table
         db.newMessage(socket.request.session.userId, data)
             .then(({ rows }) => {
-                console.log("rows,", rows);
+                const { message, create_at, id } = rows[0];
                 // 2. emit a message back to the client
                 db.getUserProfile(socket.request.session.userId).then(
-                    ({ rows: info }) => {
+                    ({ rows }) => {
+                        const { profile_pic, full_name } = rows[0];
                         io.sockets.emit("New message and user", {
-                            message: rows[0].message,
-                            createAt: rows[0]["create_at"],
-                            id: rows[0].id,
-                            profile_pic: info[0]["profile_pic"],
-                            first_name: info[0]["first_name"],
-                            last_name: info[0]["last_name"],
+                            message: message,
+                            create_at: create_at,
+                            id: id,
+                            profile_pic: profile_pic,
+                            full_name: full_name,
+                            // last_name: last_name,
                         });
                     }
                 );

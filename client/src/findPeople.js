@@ -73,26 +73,18 @@ export default function FindPeople() {
                             to={"/user/" + users.id}
                             className="searchedUsers"
                         >
-                            {!users.profile_pic && (
-                                <div className="img-wrapper">
-                                    <img
-                                        src="../default-img.png"
-                                        alt={`${users.first_name} ${users.last_name}`}
-                                        className="profile-img default"
-                                    ></img>
-                                </div>
-                            )}
-                            {users.profile_pic && (
-                                <div className="img-wrapper">
-                                    <img
-                                        src={users.profile_pic}
-                                        alt={`${users.first_name} ${users.last_name}`}
-                                        className="profile-img"
-                                    ></img>
-                                </div>
-                            )}
+                            <div className="img-wrapper">
+                                <img
+                                    src={
+                                        users.profile_pic ||
+                                            "../default-img.png"
+                                    }
+                                    alt={`${users.full_name}`}
+                                    className="profile-img"
+                                ></img>
+                            </div>
                             <p>
-                                {users.first_name} {users.last_name}
+                                {users.full_name}
                             </p>
                         </Link>
                     </div>

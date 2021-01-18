@@ -7,7 +7,7 @@ const db = spicedPg(
 /////////////////////////QUERY for register///////////////////////////
 module.exports.addUser = (firstName, lastName, email, password) => {
     const q = `
-    INSERT INTO users (first_name, last_name, email, password) 
+    INSERT INTO users (first_name, last_name, CONCAT (first_name, ' ', last_name) AS full_name, email, password) 
     VALUES ($1, $2, $3, $4)
     RETURNING id;
     `;
@@ -71,7 +71,7 @@ module.exports.editPassword = (email, password) => {
 /////////////////////////QUERY for upload picture/////////////////////////
 module.exports.getUserProfile = (userId) => {
     const q = `
-        SELECT id, first_name, last_name, email, bio, profile_pic
+        SELECT id, first_name, last_name, CONCAT (first_name, ' ', last_name) AS full_name, email, bio, profile_pic
         FROM users
         WHERE id = $1;
         `;
@@ -104,7 +104,7 @@ module.exports.editBio = (userId, bio) => {
 /////////////////////////QUERY find people///////////////////////////
 module.exports.getUsers = () => {
     const q = `
-        SELECT id, first_name, last_name, bio, profile_pic 
+        SELECT id,first_name, last_name, CONCAT (first_name, ' ', last_name) AS full_name, bio, profile_pic 
         FROM users
         ORDER BY id DESC
         LIMIT 3;
@@ -114,7 +114,7 @@ module.exports.getUsers = () => {
 
 module.exports.getMatchingPeople = (val) => {
     const q = `
-        SELECT id, first_name, last_name, bio, profile_pic 
+        SELECT id, first_name, last_name, CONCAT (first_name, ' ', last_name) AS full_name, bio, profile_pic 
         FROM users
         WHERE first_name ILIKE $1 OR last_name ILIKE $1
         LIMIT 4;
@@ -170,7 +170,7 @@ module.exports.acceptRequest = (userId, otherUserId) => {
 /////////////////////////QUERY for friends ///////////////////////////
 module.exports.getFriendsWannabes = (userId) => {
     const q = `
-        SELECT users.id, first_name, last_name, profile_pic, accepted
+        SELECT users.id, first_name, last_name, CONCAT (first_name, ' ', last_name) AS full_name, profile_pic, accepted
         FROM friendships
         JOIN users
         ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
@@ -184,7 +184,8 @@ module.exports.getFriendsWannabes = (userId) => {
 /////////////////////////QUERY for chat ///////////////////////////
 module.exports.getMostRecentMessages = () => {
     const q = `
-        SELECT chat_messages.id, first_name, last_name, profile_pic, user_id, message, chat_messages.create_at
+        SELECT chat_messages.id, first_name, last_name, CONCAT (first_name, ' ', last_name) AS full_name, profile_pic, user_id, message, 
+            TO_CHAR(chat_messages.create_at, 'DD/MM/YYYY HH12:MI:SS AM') AS create_at
         FROM chat_messages
         JOIN users
         ON chat_messages.user_id = users.id

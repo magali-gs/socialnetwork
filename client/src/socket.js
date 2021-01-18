@@ -10,7 +10,6 @@ export const init = store => {
     //some socket stuff will go here
     //this file will RECEIVE messages from the SERVER
     socket.on("New message and user", (newMessage) => {
-        console.log('new message', newMessage);
         //hand over to redux
         //in other words.. we need to dispach an action
         store.dispatch(postMessage(newMessage));
