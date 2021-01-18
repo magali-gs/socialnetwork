@@ -42,20 +42,24 @@ export default class OtherProfile extends Component {
 
     render() {
         return (
-            <div className="profile">
+            <div className="other profile">
                 {!this.state.image && (
-                    <img
-                        className="profile-img"
-                        src="../default-img.png"
-                        alt={`${this.state.first} ${this.state.last}`}
-                    />
+                    <div className="img-wrapper">
+                        <img
+                            className="profile-img default"
+                            src="../default-img.png"
+                            alt={`${this.state.first} ${this.state.last}`}
+                        />
+                    </div>
                 )}
                 {this.state.image && (
-                    <img
-                        className="profile-img"
-                        src={this.state.image}
-                        alt={`${this.state.first} ${this.state.last}`}
-                    />
+                    <div className="img-wrapper">
+                        <img
+                            className="profile-img"
+                            src={this.state.image}
+                            alt={`${this.state.first} ${this.state.last}`}
+                        />
+                    </div>
                 )}
                 <div className="bio-cropper">
                     <h1>

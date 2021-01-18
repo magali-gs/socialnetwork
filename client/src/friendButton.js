@@ -24,7 +24,11 @@ export default function FriendButton({ otherUserId, userId }) {
     }
 
     return (
-        <button onClick={(e) => handleClick(e)} name={buttonTxt}>
+        <button
+            className="friendship"
+            onClick={(e) => handleClick(e)}
+            name={buttonTxt}
+        >
             {buttonTxt}
         </button>
     );

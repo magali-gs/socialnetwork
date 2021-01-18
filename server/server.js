@@ -12,6 +12,11 @@ const multer = require("multer");
 const uidSafe = require("uid-safe");
 const s3 = require("./s3");
 const { s3Url } = require("./config.json");
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
 
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -42,12 +47,19 @@ app.use(
     })
 );
 
-app.use(
+const cookieSessionMiddleware = 
     cookieSession({
         secret: `${secret}`,
         maxAge: 1000 * 60 * 60 * 24 * 7 * 6,
-    })
-);
+    });
+
+//this MUST come after cookie session
+app.use(cookieSessionMiddleware);
+
+//this is socket stuff
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 
@@ -224,7 +236,6 @@ app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
 });
 
 app.post(("/edit-bio"), (req, res) => {
-    console.log("POST request in /edit-bio route", req.body);
     const { draftBio } = req.body;
     db.editBio(req.session.userId, draftBio)
         .then(() => {
@@ -240,7 +251,6 @@ app.post(("/edit-bio"), (req, res) => {
 });
 
 app.post("/delete-bio", (req, res) => {
-    console.log("POST request in /edit-bio route", req.body);
     const draftBio = null;
     db.editBio(req.session.userId, draftBio)
         .then(() => {
@@ -256,7 +266,6 @@ app.post("/delete-bio", (req, res) => {
 });
 
 app.post("/delete-profile-pic", s3.delete, (req, res) => {
-    console.log("POST request in /delete-profile-pic route", req.body);
     const newUrl = null;
     db.editProfilePic(req.session.userId, newUrl)
         .then(() => {
@@ -309,11 +318,9 @@ app.get("/find-users/:query", (req, res) => {
 });
 
 app.get("/friendship-status/:otherUserId", (req, res) => {
-    console.log("request made to GET/friendship", req.params);
     const { otherUserId } = req.params;
     db.getFriendshipsStatus(req.session.userId, otherUserId)
         .then(({ rows }) => {
-            console.log('rows', rows);
             res.json(rows);
         }).catch((error) => {
             console.log("/getFriendshipsStatus ", error);
@@ -328,7 +335,6 @@ app.post("/friendship-action", (req, res) => {
         console.log("request made to POST/friendship-action", action);
         db.makeRequest(req.session.userId, otherUserId)
             .then(({ rows }) => {
-                console.log("rows", rows);
                 res.json(rows);
             })
             .catch((error) => {
@@ -339,7 +345,6 @@ app.post("/friendship-action", (req, res) => {
         console.log("request made to POST/friendship-action", action);
         db.cancelRequest(req.session.userId, otherUserId)
             .then(({ rows }) => {
-                console.log("rows", rows);
                 res.json(rows);
             })
             .catch((error) => {
@@ -350,7 +355,6 @@ app.post("/friendship-action", (req, res) => {
         console.log("request made to POST/friendship-action", req.body);
         db.acceptRequest(req.session.userId, otherUserId)
             .then(({ rows }) => {
-                console.log("rows", rows);
                 res.json(rows);
             })
             .catch((error) => {
@@ -361,10 +365,8 @@ app.post("/friendship-action", (req, res) => {
 });
 
 app.get("/friends-wannabes", (req, res) => {
-    console.log("request made to GET/friends-wannabes", req.params);
     db.getFriendsWannabes(req.session.userId)
         .then(({rows}) => {
-            console.log("rows in friends-wannabes", rows);
             res.json(rows);
         }).catch((error) => {
             console.log("/getFriendsWannabes ", error);
@@ -381,6 +383,46 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
 });
+
+//this is our socket code. we will write 100% of our erver-side socket code here
+io.on('connection', (socket) => {
+    console.log(`Socket with id ${socket.id} just connected!`);
+    console.log('socket.request.session: ', socket.request.session);
+    /*
+    every user willl have two IDs:
+      - socket.id - that's the ID socket.io will assign to every user 
+      (socket.id)
+      - userId - that's the ID we assign to users when they login/register
+      (socket.request.session.userId)
+    
+    req.session DOES NOT WORK HERE because we don't have a request object
+    */
+
+    //when the user post a new message...
+    socket.on("my new chat message", (data) => {
+        //this will run whatever the user posts a new chat message!
+        console.log("my new chat message", data);
+        //1. INSERT new message into a our new 'chat_messages' table
+        //2. emit a message back to the client
+        //what we have to emit back to the client is: message, profile_pic, name, id, timestamp(opt)
+        //this wil send a message to EVERYONE (who is logged-in), not just one person
+        //get data from users table, maybe making a join
+        io.socket.emit('new message and user', {
+            // message,
+            // id,
+            // profile_pic,
+            // name,
+            // timestamp
+        });
+    });
+
+    //code for redenring the messages
+    // specifically... what we want to do is
+
+    // db.getTenMostRecentMessages().then(results => {
+    //     socket.emit('10  ost recent messages', results);
+    // });
+});// closes io.on('connection')

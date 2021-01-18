@@ -7,8 +7,11 @@ import OtherProfile from "./otherPorfile";
 import Logo from "./logo";
 import FindPeople from "./findPeople";
 import Friends from './friends';
+import Chat from "./chat";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import { FaSearch, FaUserFriends, FaComments } from "react-icons/fa";
+
 
 
 export default class App extends Component {
@@ -75,15 +78,34 @@ export default class App extends Component {
                         <Link to="/">
                             <Logo />
                         </Link>
-                        <Link to="/users">Find People</Link>
-                        <Link to="/friends">Friends</Link>
-                        <ProfilePic
-                            id={this.state.id}
-                            first={this.state.first}
-                            last={this.state.last}
-                            image={this.state.image}
-                            toggleUploader={() => this.toggleUploader()}
-                        />
+                        <nav>
+                            <ul>
+                                <li>
+                                    <Link to="/users">
+                                        <FaSearch className="icon"></FaSearch>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/friends">
+                                        <FaUserFriends className="icon"></FaUserFriends>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <FaComments className="icon"></FaComments>
+                                </li>
+                                <li>
+                                    <ProfilePic
+                                        id={this.state.id}
+                                        first={this.state.first}
+                                        last={this.state.last}
+                                        image={this.state.image}
+                                        toggleUploader={() =>
+                                            this.toggleUploader()
+                                        }
+                                    />
+                                </li>
+                            </ul>
+                        </nav>
                     </header>
                     <Route
                         exact
@@ -134,6 +156,17 @@ export default class App extends Component {
                         )}
                     />
 
+                    <Route
+                        path="/chat"
+                        render={(props) => (
+                            <Chat
+                                match={props.match}
+                                key={props.match.url}
+                                history={props.history}
+                            />
+                        )}
+                    />
+
                     {this.state.uploaderIsVisible && (
                         <Uploader
                             image={this.state.image}
@@ -141,6 +174,7 @@ export default class App extends Component {
                             toggleUploader={() => this.toggleUploader()}
                         />
                     )}
+                    <footer>Footer</footer>
                 </>
             </BrowserRouter>
         );

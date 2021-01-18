@@ -30,66 +30,74 @@ export default function Friends() {
 
     return (
         <>
-            {friends.length > 0 && (
-                <div className="friends">
-                    <h1>Friends</h1>
-                    {friends.map((friend) => (
-                        <div className="friend" key={friend.id}>
-                            {friend["profile_pic"] && (
-                                <img
-                                    src={friend["profile_pic"]}
-                                    alt={`${friend["first_name"]} ${friend["last_name"]}`}
-                                />
-                            )}
-                            {!friend["profile_pic"] && (
-                                <img
-                                    src="../default-img.png"
-                                    alt={`${friend["first_name"]} ${friend["last_name"]}`}
-                                />
-                            )}
-                            <p>
-                                {`${friend["first_name"]} ${friend["last_name"]}`}
-                            </p>
-                            <button
-                                onClick={() => dispatch(unfriend(friend.id))}
-                            >
-                                Unfriend
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            )}
-            {wannabes.length > 0 && (
-                <div className="wannabes">
-                    <h1>Wannabes</h1>
-                    {wannabes.map((wannabe) => (
-                        <div className="wannabe" key={wannabe.id}>
-                            {wannabe["profile_pic"] && (
-                                <img
-                                    src={wannabe["profile_pic"]}
-                                    alt={`${wannabe["first_name"]} ${wannabe["last_name"]}`}
-                                />
-                            )}
-                            {!wannabe["profile_pic"] && (
-                                <img
-                                    src="../default-img.png"
-                                    alt={`${wannabe["first_name"]} ${wannabe["last_name"]}`}
-                                />
-                            )}
-                            <p>
-                                {`${wannabe["first_name"]} ${wannabe["last_name"]}`}
-                            </p>
-                            <button
-                                onClick={() =>
-                                    dispatch(acceptFriend(wannabe.id))
-                                }
-                            >
-                                Accept friend
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            )}
+            <div className="container">
+                <h1>Friends</h1>
+                {friends.length > 0 && (
+                    <div className="sub-container">
+                        {friends.map((friend) => (
+                            <div className="card" key={friend.id}>
+                                {friend["profile_pic"] && (
+                                    <img
+                                        src={friend["profile_pic"]}
+                                        alt={`${friend["first_name"]} ${friend["last_name"]}`}
+                                    />
+                                )}
+                                {!friend["profile_pic"] && (
+                                    <img
+                                        src="../default-img.png"
+                                        alt={`${friend["first_name"]} ${friend["last_name"]}`}
+                                    />
+                                )}
+                                <h2>
+                                    {`${friend["first_name"]} ${friend["last_name"]}`}
+                                </h2>
+                                <button
+                                    className="friendship"
+                                    onClick={() =>
+                                        dispatch(unfriend(friend.id))
+                                    }
+                                >
+                                    Unfriend
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+            <div className="container">
+                <h1>Wannabes</h1>
+                {wannabes.length > 0 && (
+                    <div className="sub-container">
+                        {wannabes.map((wannabe) => (
+                            <div className="card" key={wannabe.id}>
+                                {wannabe["profile_pic"] && (
+                                    <img
+                                        src={wannabe["profile_pic"]}
+                                        alt={`${wannabe["first_name"]} ${wannabe["last_name"]}`}
+                                    />
+                                )}
+                                {!wannabe["profile_pic"] && (
+                                    <img
+                                        src="../default-img.png"
+                                        alt={`${wannabe["first_name"]} ${wannabe["last_name"]}`}
+                                    />
+                                )}
+                                <h2>
+                                    {`${wannabe["first_name"]} ${wannabe["last_name"]}`}
+                                </h2>
+                                <button
+                                    className="friendship"
+                                    onClick={() =>
+                                        dispatch(acceptFriend(wannabe.id))
+                                    }
+                                >
+                                    Accept friend
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </>
     );
 }

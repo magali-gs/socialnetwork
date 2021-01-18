@@ -74,18 +74,22 @@ export default function FindPeople() {
                             className="searchedUsers"
                         >
                             {!users.profile_pic && (
-                                <img
-                                    src="../default-img.png"
-                                    alt={`${users.first_name} ${users.last_name}`}
-                                    className="profile-img"
-                                ></img>
+                                <div className="img-wrapper">
+                                    <img
+                                        src="../default-img.png"
+                                        alt={`${users.first_name} ${users.last_name}`}
+                                        className="profile-img default"
+                                    ></img>
+                                </div>
                             )}
                             {users.profile_pic && (
-                                <img
-                                    src={users.profile_pic}
-                                    alt={`${users.first_name} ${users.last_name}`}
-                                    className="profile-img"
-                                ></img>
+                                <div className="img-wrapper">
+                                    <img
+                                        src={users.profile_pic}
+                                        alt={`${users.first_name} ${users.last_name}`}
+                                        className="profile-img"
+                                    ></img>
+                                </div>
                             )}
                             <p>
                                 {users.first_name} {users.last_name}

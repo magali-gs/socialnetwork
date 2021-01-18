@@ -6,6 +6,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "./reducer";
 import Welcome from "./welcome";
 import App from "./app";
+import { init } from "./socket";
 
 let elem;
 
@@ -17,6 +18,7 @@ const store = createStore(
 if (location.pathname === "/welcome") {
     elem = <Welcome />;
 } else {
+    init(store);
     elem = (
         <Provider store={store}>
             <App />
