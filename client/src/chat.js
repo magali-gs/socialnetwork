@@ -1,10 +1,16 @@
-import { userSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { socket } from './socket';
 
 export default function Chat() {
     //1. retrieve chat messages from Redux and render them
     //be mindful that you might not have 'chatMessages' in redux.
-    const chatMessages = userSelector => (state && state.chatMessages);
+
+    const chatMessages = useSelector(
+        (state) =>
+            state &&
+            state.chatMessages);
+    
+    console.log("chatMessages", chatMessages);        
 
     //2. post new messages
     const handleKeyDown = (e) => {
@@ -18,15 +24,12 @@ export default function Chat() {
     };
 
     return (
-        <>
+        <div>
             <h1>Welcome to chatroom</h1>
-            <div className="chat-container">
-                <p>dummy message...</p>
-                <p>dummy message...</p>
-                <p>dummy message...</p>
-                <p>dummy message...</p>
-            </div>
-            <textarea onKeyDown={handleKeyDown}/>
-        </>
+            {chatMessages && chatMessages.map((msg) => (
+                <p key={msg.id}>{msg.message}</p>
+            ))}
+            <textarea onKeyDown={handleKeyDown} />
+        </div>
     );
 }

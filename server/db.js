@@ -180,3 +180,14 @@ module.exports.getFriendsWannabes = (userId) => {
     const params = [userId];
     return db.query(q, params);
 };
+
+/////////////////////////QUERY for chat ///////////////////////////
+module.exports.getMostRecentMessages = () => {
+    const q = `
+        SELECT * 
+        FROM chat_messages
+        ORDER BY create_at 
+        LIMIT 10;
+        `;
+    return db.query(q);
+};

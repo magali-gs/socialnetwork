@@ -41,3 +41,10 @@ export async function unfriend(otherUserId) {
         otherUserId: otherUserId,
     };
 }
+
+export async function addRecentMessages(data) {
+    return {
+        type: "GET_MESSAGES",
+        messagesList: data,
+    };
+}
