@@ -7,7 +7,7 @@ const db = spicedPg(
 /////////////////////////QUERY for register///////////////////////////
 module.exports.addUser = (firstName, lastName, email, password) => {
     const q = `
-    INSERT INTO users (first_name, last_name, CONCAT (first_name, ' ', last_name) AS full_name, email, password) 
+    INSERT INTO users (first_name, last_name, email, password) 
     VALUES ($1, $2, $3, $4)
     RETURNING id;
     `;
@@ -185,7 +185,7 @@ module.exports.getFriendsWannabes = (userId) => {
 module.exports.getMostRecentMessages = () => {
     const q = `
         SELECT chat_messages.id, first_name, last_name, CONCAT (first_name, ' ', last_name) AS full_name, profile_pic, user_id, message, 
-            TO_CHAR(chat_messages.create_at, 'DD/MM/YYYY HH12:MI:SS AM') AS create_at
+            TO_CHAR(chat_messages.create_at, 'DD/MM/YYYY, HH12:MI AM') AS create_at
         FROM chat_messages
         JOIN users
         ON chat_messages.user_id = users.id

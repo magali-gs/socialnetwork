@@ -1,4 +1,4 @@
-import {  useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
 import { FaArrowCircleUp, FaSearch } from "react-icons/fa";
@@ -7,8 +7,7 @@ import { FaArrowCircleUp, FaSearch } from "react-icons/fa";
 export default function FindPeople() {
     const [query, setQuery] = useState('');
     const [users, setUsers] = useState([]);
-    const [error, setError] = useState(false);
-    const [showScroll, setShowScroll] = useState(false);
+    const elemRef = useRef();
 
     useEffect(() => {
         console.log(`Console log happening in useEffect`);
@@ -36,23 +35,26 @@ export default function FindPeople() {
         };
     }, [query]);
 
-    const checkScrollTop = () => {
-        if (!showScroll && window.pageYOffset > 100) {
-            setShowScroll(true);
-        } else if (showScroll && window.pageYOffset <= 100) {
-            setShowScroll(false);
-        }
-    };
-  
-    const scrollTop = () => {
-        window.scrollTo({top: 0, behavior: 'smooth'});
-    };
+
+    function scrollTop() {
+        elemRef.current.scrollTop;
+        console.log("elemRef.current.scrollTop", elemRef.current.scrollTop);
+    }
+
+    // const checkScrollTop = () => {
+    //     if (!showScroll && elemRef.current.pageYOffset > 100) {
+    //         setShowScroll(true);
+    //     } else if (showScroll && elemRef.current.pageYOffset <= 100) {
+    //         setShowScroll(false);
+    //     }
+    // };
+
     
-    window.addEventListener('scroll', checkScrollTop);
+    // window.addEventListener('scroll', checkScrollTop);
         
     return (
-        <div className="findPeople">
-            <h2>Find People</h2>
+        <div ref={elemRef} className="findPeople">
+            <h2 >Find People</h2>
             <p>Checkout who just joined!</p>
             <p>Are you looking for someone in particular? </p>
             <div className="con">
@@ -77,15 +79,13 @@ export default function FindPeople() {
                                 <img
                                     src={
                                         users.profile_pic ||
-                                            "../default-img.png"
+                                        "../default-img.png"
                                     }
                                     alt={`${users.full_name}`}
                                     className="profile-img"
                                 ></img>
                             </div>
-                            <p>
-                                {users.full_name}
-                            </p>
+                            <p>{users.full_name}</p>
                         </Link>
                     </div>
                 ))}
@@ -94,7 +94,7 @@ export default function FindPeople() {
             <FaArrowCircleUp
                 className="scrollTop"
                 onClick={scrollTop}
-                style={{ height: 40, display: showScroll ? "flex" : "none" }}
+                // style={{ height: 40, display: showScroll ? "flex" : "none" }}
             />
         </div>
     );

@@ -1,7 +1,7 @@
 import React from "react";
-import App from "./app";
+import App from "../app";
 import { render, waitForElement } from "@testing-library/react";
-import axios from "./axios";
+import axios from "../axios";
 
 //this creates my fake axios 
 jest.mock("./axios");

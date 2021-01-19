@@ -1,7 +1,7 @@
 import React from "react";
-import BioEditor from "./bioEditor";
+import BioEditor from "../bioEditor";
 import { render, fireEvent, waitForElement, waitFor} from "@testing-library/react";
-import axios from "./axios";
+import axios from "../axios";
 
 //test 1
 test("When no bio is passed to it, an 'Add' button is rendered", () => {

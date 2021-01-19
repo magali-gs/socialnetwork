@@ -1,5 +1,5 @@
 import React from 'react';
-import ProfilePic from "./profilepic";
+import ProfilePic from "../profilepic";
 import { render, fireEvent } from "@testing-library/react";
 
 test('When no url is passed, /default.jpn is used as src', () => {
