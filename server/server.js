@@ -220,8 +220,11 @@ app.get('/profile.json', (req, res) => {
 });
 
 app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
+    console.log("req", req.file);
+    console.log("req.session.userId", req.session.userId);
     if (req.file) {
-        const url = `${s3Url}${req.file.filename}`;
+        const url = `${s3Url}${req.session.userId}/${req.file.filename}`;
+        console.log('url', url);
         db.editProfilePic(req.session.userId, url)
             .then(() => {
                 res.json({ sucess: true, url: url });
@@ -374,6 +377,22 @@ app.get("/friends-wannabes", (req, res) => {
         });
 });
 
+app.get('/logout', (req, res) => {
+    req.session.userId = null;
+});
+
+// app.post('/delete-account', (req, res) => {
+//     console.log('/delete-comment', req);
+// });
+
+// app.post('/delete-comment', (req, res) => {
+//     console.log('/delete-comment', req);
+// });
+
+// app.post('/delete-account', (req, res) => {
+//     console.log('/delete-comment', req);
+// });
+
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {
     if (!req.session.userId) {
@@ -390,7 +409,8 @@ server.listen(process.env.PORT || 3001, function () {
 //this is our socket code. we will write 100% of our erver-side socket code here
 io.on('connection', (socket) => {
     console.log(`Socket with id ${socket.id} just connected!`);
-    console.log('socket.request.session: ', socket.request.session);
+    const userId = socket.request.session.userId;
+    console.log('socket.request.session: ', userId);
 
     //when the user post a new message...
     socket.on("New message", (data) => {
@@ -409,7 +429,6 @@ io.on('connection', (socket) => {
                             id: id,
                             profile_pic: profile_pic,
                             full_name: full_name,
-                            // last_name: last_name,
                         });
                     }
                 );
@@ -421,9 +440,10 @@ io.on('connection', (socket) => {
 
     //code for redenring the messages
     db.getMostRecentMessages()
-        .then(({rows}) => {
+        .then(({ rows }) => {
             socket.emit("Most recent messages", rows);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             console.log("error in getMostRecentMessages", error);
         });
     socket.on("disconnect", () => {

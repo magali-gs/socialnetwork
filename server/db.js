@@ -199,11 +199,8 @@ module.exports.newMessage = (userId, message) => {
     const q = `
         INSERT INTO chat_messages (user_id, message)
         VALUES ($1, $2)
-        RETURNING id, create_at, message;
+        RETURNING id, TO_CHAR(create_at, 'DD/MM/YYYY, HH12:MI AM') AS create_at, message;
         `;
     const params = [userId, message];
     return db.query(q, params);
 };
-
-
-

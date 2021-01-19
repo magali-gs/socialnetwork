@@ -20,7 +20,7 @@ module.exports.upload = (req, res, next) => {
         .putObject({
             Bucket: "magaliimageboard", //my own bucket
             ACL: "public-read", //basically people can view this filepublic
-            Key: filename,
+            Key: `${req.session.userId}/${filename}`,
             Body: fs.createReadStream(path),
             ContentType: mimetype,
             ContentLength: size,

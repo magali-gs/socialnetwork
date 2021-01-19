@@ -1,11 +1,11 @@
-import { useSelector,  } from "react-redux";
+import { useSelector } from "react-redux";
 import { socket } from './socket';
-import { useRef, useEffect, useState } from "react";
-import { FaArrowCircleUp } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaArrowCircleUp, FaTrashAlt} from "react-icons/fa";
+import axios from "./axios";
 
-
-export default function Chat() {
-    const elemRef = useRef();
+export default function Chat(props) {
+    const [showScroll, setShowScroll] = useState(false);
     //1. retrieve chat messages from Redux and render them
     const chatMessages = useSelector((state) => state && state.chatMessages);
     //2. post new messages
@@ -14,24 +14,42 @@ export default function Chat() {
             //send message off to server using sockets instead of axios
             //socket.emit will send a message to the server
             socket.emit("New message", e.target.value);
+            e.target.value = '';
         }
     };
 
-    // useEffect(() => {
-    // }, []);
+    const checkScrollTop = () => {
+        if (!showScroll && window.pageYOffset > 100) {
+            setShowScroll(true);
+        } else if (showScroll && window.pageYOffset <= 100) {
+            setShowScroll(false);
+        }
+    };
 
-    function scrollTop() {
-        elemRef.current.scrollTop;
-        console.log("elemRef.current.scrollTop", elemRef.current.scrollTop);
-    }
+    const scrollTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    window.addEventListener("scroll", checkScrollTop);
 
     if (!chatMessages) {
         return null;
     }
 
+
+    function deleteComment(e) {
+        console.log("handleClick", e);
+        e.preventDefault();
+        // axios
+        //     .post("delete-comment")
+        //     .then(() => {
+        //         console.log("post requets to /delete-comment");
+        //     });
+    }
+
     return (
         <>
-            <h1 ref={elemRef}>Welcome to chatroom</h1>
+            <h1>Welcome to chatroom</h1>
             <div id="chat-container">
                 {chatMessages &&
                     chatMessages.map((msg) => (
@@ -42,17 +60,30 @@ export default function Chat() {
                                 alt={`${msg["full_name"]}`}
                             />
                             <p className="user">
-                                {`${msg["full_name"]}`}{" "}
+                                {`${msg["full_name"]}`}
                                 <span className="timestamp">
                                     {msg["create_at"]}
                                 </span>
                             </p>
-                            <p>{msg.message}</p>
+                            <p>
+                                {msg.message} {msg.user_id}
+                            </p>
+                            {msg.user_id == props.loggedId && 
+                            <FaTrashAlt 
+                                id={msg.id}
+                                onClick={deleteComment}/>}
                         </div>
                     ))}
-                <textarea 
-                    onKeyDown={handleKeyDown} />
-                <FaArrowCircleUp onClick={scrollTop} className="scrollTop" />
+
+                <textarea onKeyDown={handleKeyDown} />
+                <FaArrowCircleUp
+                    className="scrollTop"
+                    onClick={scrollTop}
+                    style={{
+                        height: 40,
+                        display: showScroll ? "flex" : "none",
+                    }}
+                />
             </div>
         </>
     );

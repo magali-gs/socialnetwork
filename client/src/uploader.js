@@ -5,9 +5,9 @@ export default class Uploader extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            image: this.props.image, 
-            uploading: '',
-            hidden: '',
+            image: this.props.image,
+            uploading: "",
+            hidden: "",
             error: false,
         };
     }
@@ -54,7 +54,7 @@ export default class Uploader extends Component {
             });
     }
 
-    handleDelete(e) {
+    handleDeleteImage(e) {
         e.preventDefault();
         axios
             .post("/delete-profile-pic", this.state)
@@ -74,6 +74,16 @@ export default class Uploader extends Component {
                 this.setState({
                     error: true,
                 });
+            });
+    }
+
+    logout() {
+        console.log('logout');
+        axios.get('/logout')
+            .then(() => {
+                location.replace("/");
+            }).catch((error) => {
+                console.log('error in logout', error);
             });
     }
 
@@ -98,21 +108,24 @@ export default class Uploader extends Component {
                             accept="image/*"
                             className="inputfile"
                         />
-                        <button
-                            onClick={(e) => this.handleUpload(e)}
-                        >
+                        <button onClick={(e) => this.handleUpload(e)}>
                             <span className={this.state.uploading}></span>
                             <span className={this.state.hidden}>Update</span>
                         </button>
                         {this.props.image && (
                             <button
                                 className="delete"
-                                onClick={(e) => this.handleDelete(e)}
+                                onClick={(e) => this.handleDeleteImage(e)}
                             >
                                 Delete Image
                             </button>
                         )}
+                        <button>Delete account</button>
+                        <button onClick={() => this.logout()}>
+                            Logout
+                        </button>
                     </div>
+
                     <div
                         className="outer"
                         onClick={() => this.props.toggleUploader()}

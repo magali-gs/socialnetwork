@@ -12,15 +12,13 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { FaSearch, FaUserFriends, FaComments } from "react-icons/fa";
 
-
-
 export default class App extends Component {
     constructor() {
         super();
         this.state = {
             id: "",
-            first: '',
-            last: '',
+            first: "",
+            last: "",
             full_name: "",
             email: "",
             bio: "",
@@ -69,7 +67,7 @@ export default class App extends Component {
 
     render() {
         //online for test purposes
-        if(!this.state.id) {
+        if (!this.state.id) {
             return null;
         }
 
@@ -165,6 +163,7 @@ export default class App extends Component {
                         path="/chat"
                         render={(props) => (
                             <Chat
+                                loggedId={this.state.id}
                                 match={props.match}
                                 key={props.match.url}
                                 history={props.history}
