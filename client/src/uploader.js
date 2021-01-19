@@ -32,7 +32,6 @@ export default class Uploader extends Component {
         axios
             .post("/upload", formData)
             .then(({ data }) => {
-                console.log("data", data);
                 if (data.sucess) {
                     this.props.setImage(data.url);
                     this.props.toggleUploader();
@@ -59,7 +58,6 @@ export default class Uploader extends Component {
         axios
             .post("/delete-profile-pic", this.state)
             .then(({ data }) => {
-                console.log("data", data);
                 if (data.sucess) {
                     this.props.setImage(data.url);
                     this.props.toggleUploader();
@@ -78,12 +76,23 @@ export default class Uploader extends Component {
     }
 
     logout() {
-        console.log('logout');
         axios.get('/logout')
             .then(() => {
                 location.replace("/");
             }).catch((error) => {
                 console.log('error in logout', error);
+            });
+    }
+
+    deleteAccout() {
+        console.log('deleteaccount');
+        axios
+            .post("/delete-account")
+            .then(() => {
+                location.replace("/");
+            })
+            .catch((error) => {
+                console.log("error in deleteaccount", error);
             });
     }
 
@@ -120,10 +129,16 @@ export default class Uploader extends Component {
                                 Delete Image
                             </button>
                         )}
-                        <button>Delete account</button>
-                        <button onClick={() => this.logout()}>
-                            Logout
+                        <button
+                            onClick={() =>
+                                window.confirm(
+                                    "Are your sure you wish to delete your account?"
+                                ) && this.deleteAccout()
+                            }
+                        >
+                            Delete account
                         </button>
+                        <button onClick={() => this.logout()}>Logout</button>
                     </div>
 
                     <div

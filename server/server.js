@@ -90,7 +90,6 @@ app.post("/registration", (req, res) => {
         .then((hashedPw) => {
             db.addUser(first, last, email, hashedPw)
                 .then(({ rows }) => {
-                    console.log("addUser worked: ", rows);
                     req.session.userId = rows[0].id;
                     res.json({ error: false });
                 })
@@ -105,20 +104,16 @@ app.post("/registration", (req, res) => {
 });
 
 app.post("/welcome/login", (req, res) => {
-    console.log(req.body);
     const { email, password } = req.body;
     db.getUserInfo(email)
         .then(({ rows }) => {
-            console.log("rows", rows);
             if (rows.length > 0) {
                 compare(password, rows[0].password)
                     .then((result) => {
-                        console.log("deu certo", result);
                         if (result) {
                             req.session.userId = rows[0].id;
                             res.json({ error: false });
                         } else {
-                            console.log("senha nao compativel");
                             res.json({ error: true });
                         }
                     }).catch((error) => {
@@ -180,11 +175,9 @@ Team Social Network`;
 });
 
 app.post("/welcome/reset-password/verify", (req, res) => {
-    console.log(req.body);
     const { email, resetCode, password } = req.body;
     db.getCode(email)
         .then(({ rows }) => {
-            console.log(rows);
             if (resetCode === rows[0].code) {
                 console.log('alterar senha');
                 hash(password)
@@ -220,8 +213,6 @@ app.get('/profile.json', (req, res) => {
 });
 
 app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
-    console.log("req", req.file);
-    console.log("req.session.userId", req.session.userId);
     if (req.file) {
         const url = `${s3Url}${req.session.userId}/${req.file.filename}`;
         console.log('url', url);
@@ -332,10 +323,8 @@ app.get("/friendship-status/:otherUserId", (req, res) => {
 });
 
 app.post("/friendship-action", (req, res) => {
-    console.log("request made to POST/friendship-action", req.body);
     const { action, otherUserId } = req.body;
     if (action === "Make friend request") {
-        console.log("request made to POST/friendship-action", action);
         db.makeRequest(req.session.userId, otherUserId)
             .then(({ rows }) => {
                 res.json(rows);
@@ -345,7 +334,6 @@ app.post("/friendship-action", (req, res) => {
                 res.json({ error: true });
             });
     } else if (action === "Cancel friend request" || action === "Unfriend") {
-        console.log("request made to POST/friendship-action", action);
         db.cancelRequest(req.session.userId, otherUserId)
             .then(({ rows }) => {
                 res.json(rows);
@@ -355,7 +343,6 @@ app.post("/friendship-action", (req, res) => {
                 res.json({ error: true });
             });
     } else if (action === "Accept friend request") {
-        console.log("request made to POST/friendship-action", req.body);
         db.acceptRequest(req.session.userId, otherUserId)
             .then(({ rows }) => {
                 res.json(rows);
@@ -379,19 +366,36 @@ app.get("/friends-wannabes", (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.session.userId = null;
+    res.json({ logout: true });
 });
 
-// app.post('/delete-account', (req, res) => {
-//     console.log('/delete-comment', req);
-// });
+app.post("/delete-account", (req, res) => {
+    console.log("/delete-account", req.body);
+    // db.deleteAccountChat(req.session.userId)
+    //     .then(() => {
+    //         db.deleteAccountFriendships(req.session.userId)
+    //             .then(() => {
+    //                 db.deleteAccountUsers(req.session.userId)
+    //                     .then(() => {
+    //                         req.session.userId = null;
+    //                     })
+    //                     .catch((error) => {
+    //                         console.log("error deleteAccountUsers", error);
+    //                     });
+    //             })
+    //             .catch((error) => {
+    //                 console.log("error deleteAccountFriendships", error);
+    //             });
+    //     })
+    //     .catch((error) => {
+    //         console.log("error deleteAccountChat", error);
+    //     });
+});
 
 // app.post('/delete-comment', (req, res) => {
 //     console.log('/delete-comment', req);
 // });
 
-// app.post('/delete-account', (req, res) => {
-//     console.log('/delete-comment', req);
-// });
 
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {
