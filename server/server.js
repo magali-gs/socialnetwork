@@ -213,6 +213,7 @@ app.get('/profile.json', (req, res) => {
 });
 
 app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
+    console.log(req);
     if (req.file) {
         const url = `${s3Url}${req.session.userId}/${req.file.filename}`;
         console.log('url', url);
@@ -370,31 +371,41 @@ app.get('/logout', (req, res) => {
 });
 
 app.post("/delete-account", (req, res) => {
-    console.log("/delete-account", req.body);
-    // db.deleteAccountChat(req.session.userId)
-    //     .then(() => {
-    //         db.deleteAccountFriendships(req.session.userId)
-    //             .then(() => {
-    //                 db.deleteAccountUsers(req.session.userId)
-    //                     .then(() => {
-    //                         req.session.userId = null;
-    //                     })
-    //                     .catch((error) => {
-    //                         console.log("error deleteAccountUsers", error);
-    //                     });
-    //             })
-    //             .catch((error) => {
-    //                 console.log("error deleteAccountFriendships", error);
-    //             });
-    //     })
-    //     .catch((error) => {
-    //         console.log("error deleteAccountChat", error);
-    //     });
+    db.deleteAccountChat(req.session.userId)
+        .then(() => {
+            console.log("next");
+            db.deleteAccountFriendships(req.session.userId)
+                .then(() => {
+                    console.log('next2');
+                    db.deleteAccountUsers(req.session.userId)
+                        .then(() => {
+                            console.log("next3");
+                            req.session.userId = null;
+                            res.redirect("/welcome");
+                        })
+                        .catch((error) => {
+                            console.log("error deleteAccountUsers", error);
+                        });
+                })
+                .catch((error) => {
+                    console.log("error deleteAccountFriendships", error);
+                });
+        })
+        .catch((error) => {
+            console.log("error deleteAccountChat", error);
+        });
 });
 
-// app.post('/delete-comment', (req, res) => {
-//     console.log('/delete-comment', req);
-// });
+app.post('/delete-comment', (req, res) => {
+    const { msgId } = req.body;
+    console.log("/delete-comment", msgId);
+    db.deleteAccountChat(msgId).then(({ rows }) => {
+        res.json(rows);
+        console.log('rows', rows);
+    }).catch((error) => {
+        console.log("error", error);
+    });
+});
 
 
 //ALWAYS AT THE END BEFORE THE app.listen
@@ -413,8 +424,6 @@ server.listen(process.env.PORT || 3001, function () {
 //this is our socket code. we will write 100% of our erver-side socket code here
 io.on('connection', (socket) => {
     console.log(`Socket with id ${socket.id} just connected!`);
-    const userId = socket.request.session.userId;
-    console.log('socket.request.session: ', userId);
 
     //when the user post a new message...
     socket.on("New message", (data) => {

@@ -87,7 +87,7 @@ export default class Uploader extends Component {
     deleteAccout() {
         console.log('deleteaccount');
         axios
-            .post("/delete-account")
+            .post("/delete-account", this.state)
             .then(() => {
                 location.replace("/");
             })

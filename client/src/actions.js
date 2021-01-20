@@ -55,3 +55,16 @@ export async function postMessage(newMessage) {
         message: newMessage,
     };
 }
+
+export async function deleteMessage(msgId) {
+    console.log(msgId);
+    await axios.post("/delete-comment", {
+        // action: "DELETE_MESSAGE",
+        msgId: msgId,
+    });
+
+    return {
+        type: "DELETE_MESSAGE",
+        msgId: msgId,
+    };
+}

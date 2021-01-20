@@ -189,7 +189,7 @@ module.exports.getMostRecentMessages = () => {
         FROM chat_messages
         JOIN users
         ON chat_messages.user_id = users.id
-        ORDER BY chat_messages.create_at
+        ORDER BY chat_messages.create_at DESC
         LIMIT 10;
         `;
     return db.query(q);
@@ -230,7 +230,7 @@ module.exports.deleteAccountFriendships = (userId) => {
     const q = `
         DELETE
         FROM friendships
-        WHERE (recipient_id = $1 AND sender_id = $1);
+        WHERE (recipient_id = $1 OR sender_id = $1);
         `;
     const params = [userId];
     return db.query(q, params);
@@ -243,5 +243,16 @@ module.exports.deleteAccountChat = (userId) => {
         WHERE user_id = $1;
         `;
     const params = [userId];
+    return db.query(q, params);
+};
+
+/////////////////////////QUERY for msg ///////////////////////////
+module.exports.deleteAccountChat = (msgId) => {
+    const q = `
+        DELETE
+        FROM chat_messages
+        WHERE id = $1;
+        `;
+    const params = [msgId];
     return db.query(q, params);
 };

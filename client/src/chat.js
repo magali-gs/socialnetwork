@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { socket } from './socket';
 import { useEffect, useState } from "react";
 import { FaArrowCircleUp, FaTrashAlt} from "react-icons/fa";
-import axios from "./axios";
+import {  deleteMessage } from "./actions";
 
 export default function Chat(props) {
+    const dispatch = useDispatch();
     const [showScroll, setShowScroll] = useState(false);
     //1. retrieve chat messages from Redux and render them
     const chatMessages = useSelector((state) => state && state.chatMessages);
@@ -37,15 +38,12 @@ export default function Chat(props) {
     }
 
 
-    function deleteComment(e) {
-        console.log("handleClick", e);
-        e.preventDefault();
-        // axios
-        //     .post("delete-comment")
-        //     .then(() => {
-        //         console.log("post requets to /delete-comment");
-        //     });
-    }
+    // function deleteComment(msgId) {
+    //     console.log("msgId", msgId);
+    //     axios.post("/delete-comment/" + msgId ).then(() => {
+    //         console.log("post requets to /delete-comment");
+    //     });
+    // }
 
     return (
         <>
@@ -66,12 +64,15 @@ export default function Chat(props) {
                                 </span>
                             </p>
                             <p>
-                                {msg.message} {msg.user_id}
+                                {msg.message} {msg.id}
                             </p>
-                            {msg.user_id == props.loggedId && 
-                            <FaTrashAlt 
-                                id={msg.id}
-                                onClick={deleteComment}/>}
+                            {msg.user_id == props.loggedId && (
+                                <FaTrashAlt
+                                    onClick={() =>
+                                        dispatch(deleteMessage(msg.id))
+                                    }
+                                />
+                            )}
                         </div>
                     ))}
 
