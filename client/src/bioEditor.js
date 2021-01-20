@@ -92,7 +92,7 @@ export default class BioEditor extends Component {
                         {this.props.bio && !this.state.textareaVisible && (
                             <p>{this.props.bio}</p>
                         )}
-
+                        
                         {this.props.bio && !this.state.textareaVisible && (
                             <button
                                 className="edit"

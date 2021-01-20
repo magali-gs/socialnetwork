@@ -68,3 +68,10 @@ export async function deleteMessage(msgId) {
         msgId: msgId,
     };
 }
+
+// export async function newFriendRequest(notification) {
+//     return {
+//         type: "NOTIFICATION",
+//         notification: notification,
+//     };
+// }

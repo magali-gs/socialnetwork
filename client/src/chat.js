@@ -37,45 +37,44 @@ export default function Chat(props) {
         return null;
     }
 
-
-    // function deleteComment(msgId) {
-    //     console.log("msgId", msgId);
-    //     axios.post("/delete-comment/" + msgId ).then(() => {
-    //         console.log("post requets to /delete-comment");
-    //     });
-    // }
-
     return (
         <>
             <h1>Welcome to chatroom</h1>
             <div id="chat-container">
-                {chatMessages &&
-                    chatMessages.map((msg) => (
-                        <div key={msg.id} className="message-container">
-                            <img
-                                className="profile-img"
-                                src={msg["profile_pic"] || "../default-img.png"}
-                                alt={`${msg["full_name"]}`}
-                            />
-                            <p className="user">
-                                {`${msg["full_name"]}`}
-                                <span className="timestamp">
-                                    {msg["create_at"]}
-                                </span>
-                            </p>
-                            <p>
-                                {msg.message} {msg.id}
-                            </p>
-                            {msg.user_id == props.loggedId && (
-                                <FaTrashAlt
-                                    onClick={() =>
-                                        dispatch(deleteMessage(msg.id))
+                <div className='messages-container'>
+                    {chatMessages &&
+                        chatMessages.map((msg) => (
+                            <div 
+                                key={msg.id} 
+                                className="message-container">
+                                <img
+                                    className="profile-img"
+                                    src={
+                                        msg["profile_pic"] ||
+                                        "../default-img.png"
                                     }
+                                    alt={`${msg["full_name"]}`}
                                 />
-                            )}
-                        </div>
-                    ))}
-
+                                <p className="user">
+                                    {`${msg["full_name"]} `}
+                                    <span className="timestamp">
+                                        {msg["create_at"]}
+                                    </span>
+                                </p>
+                                <p>
+                                    {msg.message}
+                                </p>
+                                {msg.user_id == props.loggedId && (
+                                    <FaTrashAlt
+                                        className='deleteMsg'
+                                        onClick={() =>
+                                            dispatch(deleteMessage(msg.id))
+                                        }
+                                    />
+                                )}
+                            </div>
+                        ))}
+                </div>
                 <textarea onKeyDown={handleKeyDown} />
                 <FaArrowCircleUp
                     className="scrollTop"

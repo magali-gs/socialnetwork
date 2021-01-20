@@ -178,7 +178,7 @@ export default class App extends Component {
                             toggleUploader={() => this.toggleUploader()}
                         />
                     )}
-                    <footer>Footer</footer>
+                    <footer>© 2021 | Magali G.</footer>
                 </>
             </BrowserRouter>
         );

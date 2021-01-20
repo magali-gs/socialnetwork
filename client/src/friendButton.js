@@ -15,7 +15,6 @@ export default function FriendButton({ otherUserId, userId }) {
     }, [otherUserId]);
 
     function handleClick(e) {
-        console.log("handleClick", e.target.name);
         e.preventDefault();
         axios.post("/friendship-action", {action: buttonTxt, otherUserId: otherUserId})
             .then(() => {

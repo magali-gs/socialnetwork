@@ -49,9 +49,7 @@ export default class OtherProfile extends Component {
                     />
                 </div>
                 <div className="bio-cropper">
-                    <h1>
-                        {this.state.full_name}
-                    </h1>
+                    <h1>{this.state.full_name}</h1>
                     <p>{this.state.bio}</p>
                 </div>
                 <FriendButton

@@ -399,13 +399,28 @@ app.post("/delete-account", (req, res) => {
 app.post('/delete-comment', (req, res) => {
     const { msgId } = req.body;
     console.log("/delete-comment", msgId);
-    db.deleteAccountChat(msgId).then(({ rows }) => {
-        res.json(rows);
-        console.log('rows', rows);
-    }).catch((error) => {
-        console.log("error", error);
-    });
+    db.deleteMsgChat(msgId)
+        .then(({ rows }) => {
+            res.json(rows);
+            console.log("rows", rows);
+        })
+        .catch((error) => {
+            console.log("error", error);
+        });
 });
+
+// app.get("/friends-in-common/:otherUserId", (req, res) => {
+//     const { otherUserId } = req.params;
+//     console.log(otherUserId);
+//     // db.getFriendshipsStatus(req.session.userId, otherUserId)
+//     //     .then(({ rows }) => {
+//     //         res.json(rows);
+//     //     })
+//     //     .catch((error) => {
+//     //         console.log("/getFriendshipsStatus ", error);
+//     //         res.json({ error: true });
+//     //     });
+// });
 
 
 //ALWAYS AT THE END BEFORE THE app.listen
@@ -424,6 +439,9 @@ server.listen(process.env.PORT || 3001, function () {
 //this is our socket code. we will write 100% of our erver-side socket code here
 io.on('connection', (socket) => {
     console.log(`Socket with id ${socket.id} just connected!`);
+    console.log(
+        `UserId ${socket.request.session.userId} just connected!`
+    );
 
     //when the user post a new message...
     socket.on("New message", (data) => {
@@ -459,6 +477,12 @@ io.on('connection', (socket) => {
         .catch((error) => {
             console.log("error in getMostRecentMessages", error);
         });
+
+    // io.sockets.sockets.get(socket.id).emit('Friend request', {
+    //     notification: 'Oi',
+    // });
+
+    
     socket.on("disconnect", () => {
         console.log(`Socket with id: ${socket.id} just disconnected`);
     });

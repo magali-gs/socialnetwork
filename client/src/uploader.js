@@ -101,10 +101,10 @@ export default class Uploader extends Component {
             <div className="overlay">
                 <div className="uploadModal formField">
                     <header>
-                        <h2>Uploader</h2>
+                        <h2>Profile</h2>
                         {this.state.error && (
                             <p className="errorMessage">
-                                Something went wrong. Please try again
+                                Something went wrong. Please try again 
                             </p>
                         )}
                     </header>
@@ -117,7 +117,10 @@ export default class Uploader extends Component {
                             accept="image/*"
                             className="inputfile"
                         />
-                        <button onClick={(e) => this.handleUpload(e)}>
+                        <button
+                            className="update"
+                            onClick={(e) => this.handleUpload(e)}
+                        >
                             <span className={this.state.uploading}></span>
                             <span className={this.state.hidden}>Update</span>
                         </button>
@@ -130,6 +133,7 @@ export default class Uploader extends Component {
                             </button>
                         )}
                         <button
+                            className="deleteAcc"
                             onClick={() =>
                                 window.confirm(
                                     "Are your sure you wish to delete your account?"
@@ -140,7 +144,6 @@ export default class Uploader extends Component {
                         </button>
                         <button onClick={() => this.logout()}>Logout</button>
                     </div>
-
                     <div
                         className="outer"
                         onClick={() => this.props.toggleUploader()}

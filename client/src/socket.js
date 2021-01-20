@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-import { postMessage, addRecentMessages } from "./actions";
+import { postMessage, addRecentMessages, newFriendRequest } from "./actions";
 
 export let socket;
 
@@ -19,4 +19,9 @@ export const init = store => {
         //this runs when a new user connects (logs in)
         store.dispatch(addRecentMessages(mostRecents));
     });
+
+    // socket.on("Friend request", (notification) => {
+    //     alert('teste');
+    //     store.dispatch(newFriendRequest(notification));
+    // });
 };

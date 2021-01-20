@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getList, acceptFriend, unfriend } from "./actions";
 
 
-export default function Friends() {
+export default function Friends(props) {
     const dispatch = useDispatch();
     const wannabes = useSelector(
         (state) =>
@@ -17,9 +17,6 @@ export default function Friends() {
             state.friendsWannabes.filter((friend) => friend.accepted == true)
     );
 
-    console.log(wannabes);
-    console.log(friends);
-
     useEffect(() => {
         dispatch(getList());
     }, []);
@@ -28,44 +25,21 @@ export default function Friends() {
         return null;
     }
 
+    function handleClick(id) {
+        props.history.push(`/user/${id}`);
+    }
+
     return (
         <>
             <div className="container">
-                <h1>Friends</h1>
-                {friends.length > 0 && (
-                    <div className="sub-container">
-                        {friends.map((friend) => (
-                            <div className="card" key={friend.id}>
-                                <img
-                                    src={
-                                        friend["profile_pic"] ||
-                                            "../default-img.png"
-                                    }
-                                    alt={`${friend["full_name"]}}`}
-                                />
-                                <h2>
-                                    {`${friend["full_name"]}`}
-                                </h2>
-                                <button
-                                    className="friendship"
-                                    onClick={() =>
-                                        dispatch(unfriend(friend.id))
-                                    }
-                                >
-                                    Unfriend
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-            <div className="container">
-                <h1>Wannabes</h1>
-                {wannabes.length > 0 && (
+                <h1>Friend Request</h1>
+                {/* {!wannabes && <p>Nothing here!</p>} */}
+                {(wannabes.length > 0 && (
                     <div className="sub-container">
                         {wannabes.map((wannabe) => (
                             <div className="card" key={wannabe.id}>
                                 <img
+                                    onClick={() => handleClick(wannabe.id)}
                                     src={
                                         wannabe["profile_pic"] ||
                                         "../default-img.png"
@@ -86,7 +60,35 @@ export default function Friends() {
                             </div>
                         ))}
                     </div>
-                )}
+                )) || <p>Nothing here!</p>}
+            </div>
+            <div className="container">
+                <h1>Friends</h1>
+                {(friends.length > 0 && (
+                    <div className="sub-container">
+                        {friends.map((friend) => (
+                            <div className="card" key={friend.id}>
+                                <img
+                                    onClick={() => handleClick(friend.id)}
+                                    src={
+                                        friend["profile_pic"] ||
+                                        "../default-img.png"
+                                    }
+                                    alt={`${friend["full_name"]}}`}
+                                />
+                                <h2>{`${friend["full_name"]}`}</h2>
+                                <button
+                                    className="friendship"
+                                    onClick={() =>
+                                        dispatch(unfriend(friend.id))
+                                    }
+                                >
+                                    Unfriend
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )) || <p>Nothing here!</p>}
             </div>
         </>
     );

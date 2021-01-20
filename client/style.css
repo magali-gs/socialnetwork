@@ -27,9 +27,8 @@ svg {
 }
 
 header svg:hover {
-  color: rgba(255, 148, 169, 0.7);
-  /* width: 30px;
-  height: 30px; */
+  color: rgba(184, 242, 230, 0.9);
+  transform: rotate(15deg);
   transition: 1s;
   cursor: pointer;
 }
@@ -41,6 +40,30 @@ footer {
   padding: 1vh 1vw;
   height: 5vh;
   font-size: calc(0.4rem + 1vmin);
+}
+
+.welcome {
+  margin: 0;
+	background: linear-gradient(-45deg, rgba(238, 119, 82, 0.1), rgba(231, 60, 126, 0.1), rgba(35, 166, 213, 0.1), rgba(35, 213, 171, 0.1));
+	background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
 
 /* APP header */
@@ -87,22 +110,15 @@ ul {
   align-items: center;
 }
 
-.logo {
-  display: inline;
-  position: relative;
-  margin-right: auto;
-  font-size: calc(3rem + 1vmin);
-  letter-spacing: -5px;
-  color: rgba(255, 148, 169, 0.5);
-  justify-self: start;
+.logo{
+  width: 5em;
+  height: 4em;
+  transition: 1s;
 }
 
-.logo:after {
-  content: 'Logo';
-  position: absolute;
-  left: 10px;
-  top: 5px;
-  color: rgba(184, 242, 230, 0.5);
+.logo:hover {
+  transform: rotate(35deg);
+  transition: 1s;
 }
 
 .errorMessage {
@@ -181,6 +197,25 @@ ul {
 .findPeople .img-wrapper:hover::after {
   background: rgba(184, 242, 230, .8);
   animation: 4s counterclockwise infinite;
+}
+
+.bio > button {
+  margin: 1% auto;
+  width: 190px;
+  height: 40px;
+  font-size: calc(0.5rem + 1vmin);
+}
+
+.uploadModal .form > button {
+  margin: 5% auto;
+  font-size: calc(0.5rem + 1vmin);
+}
+.uploadModal .form > .delete, .uploadModal .form > .update  {
+  width: 190px;
+}
+
+.uploadModal > header {
+  margin: 2% auto 5% auto;
 }
 
 @keyframes clockwise {
@@ -264,7 +299,10 @@ ul {
 /* FIND PEOLPLE */
 .findPeople {
   padding: 1vh 1vw;
+  display: flex;
+  flex-direction: column;
 }
+
 .searchedUsers {
   display: flex;
   flex-direction: row;
@@ -272,12 +310,48 @@ ul {
   align-items: center;
 }
 
-.searchInput:focus {
-  width: 300px;
-  transform: none;
+.search-box{
+  margin: 2vh 0vw;
+  transform: translate(0%,0%);
+  width: 80px;
+  height: 50px;
+  border-radius: 30px;
+  border: 2px solid rgba(184, 242, 230, 0.7);
+  overflow: hidden;
+  transition: all 1s;
 }
-.searchInput:hover {
-  transform: none;
+.search-box input{
+  position: absolute;
+  width: 80%;
+  height: 100%;
+  outline: none;
+  border: none;
+  background: inherit;
+  font-size: calc(0.55rem + 1vmin);
+  padding: 0 30px;
+  opacity: 0;
+  transition: all 1s;
+}
+.search-box:hover{
+  width: 400px;
+}
+
+.search-box:hover input{
+    opacity: 1;
+}
+
+.search-box .icon{
+  position: absolute;
+  right: 0;
+  width: 80px;
+  height: 100%;
+  background:  rgba(184, 242, 230, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;    
+  color: ghostwhite;
+  cursor: pointer;
+  transition: all .4s;
 }
 
 .users p {
@@ -295,55 +369,25 @@ ul {
   flex-direction: column;
 }
 
-.card {
-  margin: 10px;
-  min-width: 230px;
-  max-width: 315px;
-  width: 100%;
-  color: #000000;
-  text-align: center;
-  line-height: 1.4em;
-  font-size: 14px;
-  box-shadow: none !important;
-}
-.card * {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-.card .profile-image {
-  display: inline-block;
-  width: 80%;
-  z-index: 1;
-  position: relative;
-  padding: 10px;
-  border: 2px solid #e8b563;
-}
-
-.card .profile-image img {
-  max-width: 100%;
-  vertical-align: top;
-}
-/* 
 .sub-container {
   display: flex;
-  margin: auto;
-	justify-content: center;
+  flex-wrap: wrap;
+	justify-content: flex-start;
 	align-items: center;
-  background-color: color(white);
   line-height: 1.4;
   height: 100%;
 }
 
 .card {
-  width: 250px;
-  background: #fff
-		url("https://storage.googleapis.com/chydlx/codepen/minimalist-profile-card/card-bg.jpg")
-		top -10% center no-repeat;
-	background-size: contain;
+  width: 150px;
+  height: 300px;
 	border-radius: 10px;
 	text-align: center;
-	padding: 30px 60px;
+  padding: 30px 30px;
+  margin: 1vh 1vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .sub-container img {
@@ -355,23 +399,27 @@ ul {
   border-radius: 50%;
   object-fit: cover;
   object-position: center right;
+  cursor: pointer;
 }
 
 .sub-container h2 {
   margin: auto;
-	color: darken(color(grey), 15);
-	font-weight: 300;
-	font-size: calc(1.2rem + 1vmin);
+	font-weight: 400;
+	font-size: calc(1rem + 1vmin);
   font-family: 'Playfair Display', serif;
 }
 
 .card button {
-  width: 150px;
-} */
+  width: 120px;
+  height: 40px;
+  font-size: calc(.5rem + 1vmin);
+}
 
 /* CHAT  */
 #chat-container {
-  margin: 5vw 20vh;
+  display: flex;
+  flex-direction: column;
+  margin: 2vw 20vh;
   padding: 2vw 2vh;
   border: 2px solid #383838;
   border-radius: 30px;
@@ -379,9 +427,15 @@ ul {
 }
 
 #chat-container textarea {
-  width: 100%;
+  width: 70%;
   margin: 1vh 1vw;
   border-radius: 30px;
+  align-self: center;
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .message-container {
@@ -422,6 +476,12 @@ ul {
   color: gray;
 }
 
+.deleteMsg {
+  padding: 2vh 2vw;
+  grid-column: 2;
+  justify-self: end ;
+}
+
 /* FORM ELEMENTS */
 .formField {
   margin: 2% auto;
@@ -429,12 +489,8 @@ ul {
   width: 450px;
   height: auto;
   min-height: 500px;
-  /* border: 6px solid #2A293E; */
   background-image: linear-gradient(-232deg, #E3FDF5 50%, #FFE6FA 50%);
-  /* box-shadow: 0 9px 50px hsla(20, 67%, 75%, 0.31); */
-  border: 2px solid #383838;
   border-radius: 30px;
-  box-shadow: 4px 5px 0px 0px #383838;
 }
 
 .formField .form {
@@ -486,13 +542,12 @@ input {
   width: 240px;
   height: 50px;
   outline: none;
-  /* border: none; */
-  /* border-radius: 5px; */
+  border:none;
+  border-radius: 5px;
   color: #5E6472;
   font-size: calc(0.6rem + 1vmin);
   font-family: "Comfortaa";
   transition: 0.2s linear;
-  border: 2px solid #383838;
 }
 
 textarea {
@@ -531,7 +586,8 @@ button {
     transition: all 0.2s linear;
 }
 
-.log-in, .sig-up, .close, .edit, .friendship{
+
+.log-in, .sig-up, .close, .edit, .friendship, .deleteAcc {
   background: #B8F2E6;
 }
 

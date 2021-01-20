@@ -185,7 +185,7 @@ module.exports.getFriendsWannabes = (userId) => {
 module.exports.getMostRecentMessages = () => {
     const q = `
         SELECT chat_messages.id, first_name, last_name, CONCAT (first_name, ' ', last_name) AS full_name, profile_pic, user_id, message, 
-            TO_CHAR(chat_messages.create_at, 'DD/MM/YYYY, HH12:MI AM') AS create_at
+            TO_CHAR(chat_messages.create_at, 'DD/MM/YYYY, HH24:MI:SS') AS create_at
         FROM chat_messages
         JOIN users
         ON chat_messages.user_id = users.id
@@ -199,7 +199,7 @@ module.exports.newMessage = (userId, message) => {
     const q = `
         INSERT INTO chat_messages (user_id, message)
         VALUES ($1, $2)
-        RETURNING id, TO_CHAR(create_at, 'DD/MM/YYYY, HH12:MI AM') AS create_at, message;
+        RETURNING id, TO_CHAR(create_at, 'DD/MM/YYYY, HH24:MI:SS') AS create_at, message;
         `;
     const params = [userId, message];
     return db.query(q, params);
@@ -247,7 +247,7 @@ module.exports.deleteAccountChat = (userId) => {
 };
 
 /////////////////////////QUERY for msg ///////////////////////////
-module.exports.deleteAccountChat = (msgId) => {
+module.exports.deleteMsgChat = (msgId) => {
     const q = `
         DELETE
         FROM chat_messages

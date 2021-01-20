@@ -55,16 +55,17 @@ export default function FindPeople() {
             <h2>Find People</h2>
             <p>Checkout who just joined!</p>
             <p>Are you looking for someone in particular? </p>
-            <div className="con">
-                <span>
-                    <FaSearch className="input-item"></FaSearch>
-                </span>
-
+            <div className="search-box">
                 <input
                     defaultValue=""
                     className="searchInput"
                     onChange={(e) => setQuery(e.target.value)}
                 />
+                <div className='icon'>
+                    <span>
+                        <FaSearch className=""></FaSearch>
+                    </span>
+                </div>
             </div>
             <div>
                 {users.map((users, idx) => (
@@ -77,15 +78,13 @@ export default function FindPeople() {
                                 <img
                                     src={
                                         users.profile_pic ||
-                                            "../default-img.png"
+                                        "../default-img.png"
                                     }
                                     alt={`${users.full_name}`}
                                     className="profile-img"
                                 ></img>
                             </div>
-                            <p>
-                                {users.full_name}
-                            </p>
+                            <p>{users.full_name}</p>
                         </Link>
                     </div>
                 ))}
