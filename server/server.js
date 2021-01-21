@@ -409,20 +409,6 @@ app.post('/delete-comment', (req, res) => {
         });
 });
 
-// app.get("/friends-in-common/:otherUserId", (req, res) => {
-//     const { otherUserId } = req.params;
-//     console.log(otherUserId);
-//     // db.getFriendshipsStatus(req.session.userId, otherUserId)
-//     //     .then(({ rows }) => {
-//     //         res.json(rows);
-//     //     })
-//     //     .catch((error) => {
-//     //         console.log("/getFriendshipsStatus ", error);
-//     //         res.json({ error: true });
-//     //     });
-// });
-
-
 //ALWAYS AT THE END BEFORE THE app.listen
 app.get("*", function (req, res) {
     if (!req.session.userId) {
@@ -461,8 +447,7 @@ io.on('connection', (socket) => {
                             profile_pic: profile_pic,
                             full_name: full_name,
                         });
-                    }
-                );
+                    });
             })
             .catch((error) => {
                 console.log("error in newMessage", error);
@@ -477,11 +462,6 @@ io.on('connection', (socket) => {
         .catch((error) => {
             console.log("error in getMostRecentMessages", error);
         });
-
-    // io.sockets.sockets.get(socket.id).emit('Friend request', {
-    //     notification: 'Oi',
-    // });
-
     
     socket.on("disconnect", () => {
         console.log(`Socket with id: ${socket.id} just disconnected`);

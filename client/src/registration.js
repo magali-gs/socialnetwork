@@ -54,7 +54,7 @@ export default class Registration extends Component {
                     <header>
                         <h2>Registration</h2>
                         <p>
-                            join millions of artisans sharing their experiences
+                            join millions of cool peolple sharing their experiences
                         </p>
                         {this.state.error && (
                             <p>

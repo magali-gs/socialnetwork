@@ -88,7 +88,7 @@ export default function Friends(props) {
                             </div>
                         ))}
                     </div>
-                )) || <p>Nothing here!</p>}
+                )) || <p>you have no friends. Why don´t you find some?</p>}
             </div>
         </>
     );

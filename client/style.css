@@ -22,11 +22,11 @@ svg {
   width: 25px;
   height: 25px;
   padding: 1vh .5vw; 
-  /* color: rgba(255, 148, 169, 0.5); */
   transition: 1s;
+  cursor: pointer;
 }
 
-header svg:hover {
+ svg:hover {
   color: rgba(184, 242, 230, 0.9);
   transform: rotate(15deg);
   transition: 1s;
@@ -111,13 +111,13 @@ ul {
 }
 
 .logo{
-  width: 5em;
-  height: 4em;
+  width: 3em;
+  height: 3.5em;
   transition: 1s;
 }
 
 .logo:hover {
-  transform: rotate(35deg);
+  transform: rotate(25deg);
   transition: 1s;
 }
 
@@ -439,7 +439,6 @@ ul {
 }
 
 .message-container {
-  /* border: 2px solid #383838; */
   margin: 1vh 1vw;
   display: grid;
   grid-template-columns: 70px 1fr;
@@ -463,6 +462,14 @@ ul {
 
 .message-container:nth-child(even) {
   background-color: rgba(255, 148, 169, 0.2);
+}
+
+.message-container:nth-child(odd) svg:hover {
+  color: rgba(255, 148, 169);
+}
+
+.message-container:nth-child(even) svg:hover {
+  color: rgba(184, 242, 230);
 }
 
 .user {
