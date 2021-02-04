@@ -46,16 +46,16 @@ Clone this repo to your desktop and run ```npm install``` to install all the dep
 
 ## Showroom
 ### Profile
-![](/public/profile.gif)
+![](/client/public/profile.gif)
 
 ### Finding users
-![](/public/find-user.gif)
+![](/client/public/find-user.gif)
 
 ### Send and accept friend request
-![](/public/friendship-btn.gif)
+![](/client/public/friendship-btn.gif)
 
 ### Chat
-![](/public/chat.gif)
+![](/client/public/chat.gif)
 
 ## To-do
 Next functionalities I want to add:
