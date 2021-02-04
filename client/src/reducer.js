@@ -40,7 +40,7 @@ export default function reducer(state = {}, action ) {
     if (action.type == "POST_MESSAGES") {
         state = {
             ...state,
-            chatMessages: [...state.chatMessages, action.message],
+            chatMessages: [action.message, ...state.chatMessages],
         };
     }
 

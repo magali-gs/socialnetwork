@@ -213,7 +213,6 @@ app.get('/profile.json', (req, res) => {
 });
 
 app.post("/upload", uploader.single("image"), s3.upload, (req, res) => {
-    console.log(req);
     if (req.file) {
         const url = `${s3Url}${req.session.userId}/${req.file.filename}`;
         console.log('url', url);
@@ -371,12 +370,14 @@ app.get('/logout', (req, res) => {
 });
 
 app.post("/delete-account", (req, res) => {
-    db.deleteAccountChat(req.session.userId)
+    s3.delete(req.session.userId);
+    db
+        .deleteAccountChat(req.session.userId)
         .then(() => {
             console.log("next");
             db.deleteAccountFriendships(req.session.userId)
                 .then(() => {
-                    console.log('next2');
+                    console.log("next2");
                     db.deleteAccountUsers(req.session.userId)
                         .then(() => {
                             console.log("next3");
@@ -424,10 +425,10 @@ server.listen(process.env.PORT || 3001, function () {
 
 //this is our socket code. we will write 100% of our erver-side socket code here
 io.on('connection', (socket) => {
-    console.log(`Socket with id ${socket.id} just connected!`);
-    console.log(
-        `UserId ${socket.request.session.userId} just connected!`
-    );
+    // console.log(`Socket with id ${socket.id} just connected!`);
+    // console.log(
+    //     `UserId ${socket.request.session.userId} just connected!`
+    // );
 
     //when the user post a new message...
     socket.on("New message", (data) => {
